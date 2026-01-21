@@ -49,37 +49,70 @@ document.addEventListener('DOMContentLoaded', () => {
     updateClock(); // Initial call
 
 
-    // THEME TOGGLE LOGIC
-    const themeBtn = document.getElementById('theme-toggle');
+    // THEME DROPDOWN LOGIC
+    const themeSelect = document.getElementById('theme-select');
     const body = document.body;
     
-    // Check saved theme
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        body.setAttribute('data-theme', savedTheme);
-        updateThemeText(savedTheme);
-    } else {
-        updateThemeText('terminal');
-    }
-
-    themeBtn.addEventListener('click', () => {
-        const currentTheme = body.getAttribute('data-theme');
-        if (currentTheme === 'retro') {
+    // Default to 'simple' on load (no localStorage check)
+    // The HTML structure defaults to simple, so we just ensure the dropdown matches
+    themeSelect.value = 'simple';
+    // No need to updateDynamicContent('simple') here as HTML is static simple by default
+    // unless we want to be super safe against browser caching input values
+    
+    themeSelect.addEventListener('change', (e) => {
+        const selectedTheme = e.target.value;
+        
+        if (selectedTheme === 'simple') {
             body.removeAttribute('data-theme');
-            localStorage.setItem('theme', 'terminal');
-            updateThemeText('terminal');
         } else {
-            body.setAttribute('data-theme', 'retro');
-            localStorage.setItem('theme', 'retro');
-            updateThemeText('retro');
+            body.setAttribute('data-theme', selectedTheme);
         }
+        
+        // localStorage removed as requested
+        updateDynamicContent(selectedTheme);
     });
 
-    function updateThemeText(theme) {
-        if (theme === 'retro') {
-            themeBtn.textContent = "Switch to Terminal";
-        } else {
-            themeBtn.textContent = "[SWITCH_THEME_V2]";
-        }
+    function updateDynamicContent(theme) {
+        // Dynamic Text Content
+        const textElements = document.querySelectorAll('[data-text-terminal]');
+        
+        textElements.forEach(el => {
+            if (theme === 'retro') {
+                if (el.dataset.textRetro) {
+                    el.textContent = el.dataset.textRetro;
+                }
+            } else if (theme === 'terminal') {
+                if (el.dataset.textTerminal) {
+                    el.textContent = el.dataset.textTerminal;
+                }
+            } else {
+                // Default / Simple Theme
+                // We need to store the default text somewhere if we want to revert, 
+                // but since we are swapping, we can just use the initial HTML content as "Simple"
+                // However, once swapped, the initial content is lost.
+                // WE NEED TO FIX THIS: The initial load has the Simple text.
+                // We should add a 'data-text-simple' attribute to be safe, OR
+                // assume the HTML source *is* simple, but we need to store it before swapping.
+                
+                // Better approach: Let's assume the HTML has the simple text. 
+                // But if we are already in Terminal mode (from load), the text is already swapped?
+                // No, on load `updateDynamicContent` is called.
+                
+                // Let's add data-text-simple to all elements in HTML for robustness, 
+                // or just define them here if missing.
+                // Actually, finding the "Simple" text is tricky if we don't store it.
+                // Let's rely on a new data attribute, or just hardcode for now? 
+                // Hardcoding is bad.
+                // Let's use the 'data-text-simple' convention.
+                
+                if (el.dataset.textSimple) {
+                    el.textContent = el.dataset.textSimple;
+                } else {
+                    // Fallback to what's in the DOM if we haven't swapped yet? 
+                    // No, if we swap to Terminal then back to Simple, we lose the text.
+                    // We must add data-text-simple attributes to HTML.
+                }
+            }
+        });
     }
 });

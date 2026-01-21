@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAHRU // SYSTEM_PORTAL</title>
-    <meta name="description" content="System Portal for Fakhrusy (Fahru) Muhamad - Systems Engineer.">
+    <title>FAHRU // RESUME</title>
+    <meta name="description" content="Interactive Resume for Fakhrusy (Fahru) Muhamad - Full Stack & Design Engineer.">
     
     <!-- Fonts: JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,7 +36,11 @@
         </div>
         <div class="status-right">
             <div class="status-item">
-                <button id="theme-toggle" class="theme-btn">[SWITCH_THEME]</button>
+                <select id="theme-select" class="theme-select">
+                    <option value="simple">Theme: Simple</option>
+                    <option value="terminal">Theme: Terminal</option>
+                    <option value="retro">Theme: Retro</option>
+                </select>
             </div>
             <div class="status-item">
                 <span id="clock">00:00:00</span>
@@ -48,13 +52,26 @@
         
         <!-- Hero Section -->
         <section id="hero" class="hero-section">
-            <p class="intro-line">> initiating connection...</p>
+            <p class="intro-line" 
+               data-text-simple="Hello, I'm"
+               data-text-terminal="> initiating connection..."
+               data-text-retro="Welcome to my homepage!">
+               Hello, I'm
+            </p>
             <h1 class="name">Fakhrusy (Fahru) Muhamad</h1>
             <h2 class="title" id="typing-title"></h2> <!-- Text injected via JS -->
             
             <div class="bio-block">
-                <p>>_ Systems-focused Engineer, Tinkerer, and Hacker.</p>
-                <p>>_ Exploring distributed systems, robotics, and robust software engineering.</p>
+                <p data-text-simple="Full Stack Engineer specializing in Frontend & Design Engineering."
+                   data-text-terminal=">_ Full Stack Engineer specializing in Frontend & Design Engineering."
+                   data-text-retro="Full Stack Engineer specializing in Frontend & Design Engineering.">
+                   Full Stack Engineer specializing in Frontend & Design Engineering.
+                </p>
+                <p data-text-simple="Building product-focused experiences with Creative Programming & Growth Engineering."
+                   data-text-terminal=">_ Building product-focused experiences with Creative Programming & Growth Engineering."
+                   data-text-retro="Building product-focused experiences with Creative Programming & Growth Engineering.">
+                   Building product-focused experiences with Creative Programming & Growth Engineering.
+                </p>
             </div>
             
             <div class="social-links">
@@ -68,7 +85,9 @@
         <!-- Portal Grid -->
         <section id="portal">
             <div class="section-header">
-                <h3>// PORTAL_ACCESS</h3>
+                <h3 data-text-simple="Portals" data-text-terminal="// PORTAL_ACCESS" data-text-retro="My Links">
+                    Portals
+                </h3>
                 <div class="section-line"></div>
             </div>
             
@@ -80,10 +99,17 @@
                         <i class="fab fa-linux card-icon"></i>
                     </div>
                     <div>
-                        <h4>WEB_OS_PORTFOLIO</h4>
+                        <h4 data-text-simple="Web OS Portfolio" data-text-terminal="WEB_OS_PORTFOLIO" data-text-retro="Web OS Portfolio">
+                            Web OS Portfolio
+                        </h4>
                         <p>Interactive OS-like portfolio environment.</p>
                     </div>
-                    <span class="card-link">>> EXECUTE REPO: fahru-dot-me</span>
+                    <span class="card-link"
+                          data-text-simple="View Code"
+                          data-text-terminal=">> EXECUTE REPO: fahru-dot-me"
+                          data-text-retro="View Source Code">
+                          View Code
+                    </span>
                 </a>
                 
                 <!-- Portfolio -->
@@ -93,10 +119,17 @@
                         <i class="fas fa-laptop-code card-icon"></i>
                     </div>
                     <div>
-                        <h4>PORTFOLIO_V1</h4>
+                        <h4 data-text-simple="Portfolio" data-text-terminal="PORTFOLIO_V1" data-text-retro="Portfolio v1">
+                            Portfolio
+                        </h4>
                         <p>Detailed work showcase & projects.</p>
                     </div>
-                    <span class="card-link">>> EXECUTE REPO: portfolio</span>
+                    <span class="card-link"
+                          data-text-simple="View Code"
+                          data-text-terminal=">> EXECUTE REPO: portfolio"
+                          data-text-retro="View Source Code">
+                          View Code
+                    </span>
                 </a>
 
                 <!-- Blog -->
@@ -106,10 +139,17 @@
                         <i class="fas fa-terminal card-icon"></i>
                     </div>
                     <div>
-                        <h4>BLOG_LOGS</h4>
+                        <h4 data-text-simple="Blog" data-text-terminal="BLOG_LOGS" data-text-retro="My Weblog">
+                            Blog
+                        </h4>
                         <p>Thoughts, tutorials, & musings.</p>
                     </div>
-                    <span class="card-link">>> READ LOGS</span>
+                    <span class="card-link"
+                          data-text-simple="Read Articles"
+                          data-text-terminal=">> READ LOGS"
+                          data-text-retro="Read Articles">
+                          Read Articles
+                    </span>
                 </a>
             </div>
         </section>
@@ -117,7 +157,9 @@
         <!-- Resume Section -->
         <section id="resume">
             <div class="section-header">
-                <h3>// DATA_LOG: RESUME</h3>
+                <h3 data-text-simple="Resume" data-text-terminal="// DATA_LOG: RESUME" data-text-retro="Work Experience">
+                    Resume
+                </h3>
                 <div class="section-line"></div>
             </div>
             
@@ -125,64 +167,63 @@
                 <!-- Experience Row -->
                 <div class="resume-row">
                     <div class="resume-left">
-                        <h4>WORK_HISTORY</h4>
+                        <h4 data-text-simple="Experience" data-text-terminal="WORK_HISTORY" data-text-retro="Professional History">
+                            Experience
+                        </h4>
                     </div>
                     <div class="resume-right">
                         <!-- Overleaf -->
                         <div class="exp-item">
                             <div class="exp-header">
-                                <span class="exp-role">Software Engineer [Full-stack]</span>
-                                <span class="exp-date">2022 — 2025</span>
+                                <span class="exp-role">Software Engineer (Full-stack)</span>
+                                <span class="exp-date">2022 -- Nov 2025</span>
                             </div>
-                            <div class="exp-company">OVERLEAF // REMOTE, UK</div>
+                            <div class="exp-company">Overleaf</div>
                             <ul class="exp-details">
-                                <li>Migrated payment provider Recurly -> Stripe.</li>
-                                <li>Optimized GitHub integration state logic.</li>
-                                <li>A/B testing (BigQuery) driving 10% revenue lift.</li>
+                                <li>Designed a migration process to change our payment provider from Recurly to Stripe. I experimented with three different Stripe checkout flows (self-hosted checkout, embedded checkout, and Stripe Elements) before deciding to settle with Stripe self-hosted checkout for its simplicity.</li>
+                                <li>Improved complex GitHub integration flow that involves multiple Overleaf users for a single Overleaf <-> GitHub connection. It resolved a longstanding bug that ended up needing a refactor in our React state and rendering logic.</li>
+                                <li>Improved our custom Contentful (a headless CMS) system to support the increasingly demanding custom pages from the non-development teams.</li>
+                                <li>I was part of the GTM (Growth) team that works with A/B tests in almost everything we do to make sure no changes go undetected and unanalyzed. BigQuery was heavily used. One of the pages—a paywall page for free users—that we tested increased initial revenue by 10%.</li>
                             </ul>
-                            <div class="tech-tags">
-                                <span>React</span><span>TS</span><span>Node</span><span>MongoDB</span><span>GCP</span>
-                            </div>
                         </div>
 
                         <!-- Ruangguru -->
                         <div class="exp-item">
                             <div class="exp-header">
-                                <span class="exp-role">Software Engineer [Frontend]</span>
-                                <span class="exp-date">2019 — 2021</span>
+                                <span class="exp-role">Software Engineer (Frontend)</span>
+                                <span class="exp-date">2019 -- 2021</span>
                             </div>
-                            <div class="exp-company">RUANGGURU // INDONESIA</div>
+                            <div class="exp-company">Ruangguru</div>
                             <ul class="exp-details">
-                                <li>Built government MOOC platform.</li>
-                                <li>Migrated ReasonML -> TypeScript.</li>
+                                <li>Built a MOOC platform for Indonesian citizens. We had a big government contract and were one of the main government training systems for Indonesian citizens.</li>
+                                <li>Involved in the Growth team by managing multiple A/B tests for the marketing campaign (e.g., discount, bundles).</li>
+                                <li>Introduced TypeScript in a new codebase to replace ReasonML (called ReScript now) after we thought ReasonML was no longer stable to be used in a new project.</li>
+                                <li>Involved in the React Native migration of our Cordova mobile application. (not a direct contributor because I was tasked with maintaining our Cordova mobile app).</li>
                             </ul>
-                            <div class="tech-tags">
-                                <span>React</span><span>TS</span><span>ReasonML</span><span>K8s</span>
-                            </div>
                         </div>
 
                         <!-- Sirius -->
                         <div class="exp-item">
                             <div class="exp-header">
                                 <span class="exp-role">Technical Founder</span>
-                                <span class="exp-date">2019 — 2020</span>
+                                <span class="exp-date">2019 -- 2020</span>
                             </div>
-                            <div class="exp-company">SIRIUS TEKNOLOGI</div>
+                            <div class="exp-company">Sirius Teknologi Indonesia</div>
                             <ul class="exp-details">
-                                <li>Airline digital document system (Azure/React).</li>
+                                <li>I led a team to develop a new digital document system for an Indonesian airline from the ground up. I touched everything in the platform: from database and DevOps with Azure, web-based apps with TypeScript/React, and an Android app with React Native. We used Azure at the client's preference.</li>
                             </ul>
-                            <div class="tech-tags">
-                                <span>Azure</span><span>PostgreSQL</span><span>React Native</span>
-                            </div>
                         </div>
 
                         <!-- Codemi -->
                         <div class="exp-item">
                             <div class="exp-header">
                                 <span class="exp-role">Frontend Engineer</span>
-                                <span class="exp-date">2018 — 2019</span>
+                                <span class="exp-date">2018 -- 2019</span>
                             </div>
-                            <div class="exp-company">CODEMI</div>
+                            <div class="exp-company">Codemi</div>
+                            <ul class="exp-details">
+                                <li>Part of the team that developed an internal training system that is composed of video lectures, quizzes, and reading materials. It was using Javascript/React/Redux/Mobx (yeah, we messed up there by combining Redux and Mobx for the state management, don't remind me of the horror).</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -193,23 +234,33 @@
                         <h4>EDUCATION</h4>
                     </div>
                     <div class="resume-right">
+                        <!-- Georgia Tech -->
                         <div class="edu-item">
                             <div class="exp-header">
-                                <span class="exp-role">MS Computer Science</span>
-                                <span class="exp-date">2024 — NOW</span>
+                                <span class="exp-role">PART TIME: Master Degree in Computer Science</span>
+                                <span class="exp-date">2024 - Ongoing</span>
                             </div>
-                            <div class="exp-company">GEORGIA TECH</div>
+                            <div class="exp-company">Georgia Institute of Technology</div>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;">Specializing in Robotic Perception / Systems</p>
                             <ul class="exp-details">
-                                <li>Spec: Robotic Perception / Systems</li>
-                                <li>Distributed Systems, OS, AI, Robotics.</li>
+                                <li>CS6200-Graduate Intro to OS: Multithreaded C web server, distributed filesystem using gRPC/C++</li>
+                                <li>CS6210-Advanced OS: Barrier sync analysis using C, libvirt integration, distributed eCommerce system using gRPC/C++, MapReduce implementation using gRPC/C++</li>
+                                <li>CS7638-Robotics AI: Kalman Filter, Particle Filter, PID, robot search, and SLAM.</li>
+                                <li>CS8003 O24-Intro to Research: Soft robotics and swarm robotic research.</li>
+                                <li>CS6601-Artificial Intelligence: Search, Bayes Nets, constraint satisfaction problems, etc. Projects include decision tree/forest, minimax algorithms, hidden Markov models, and Gaussian mixtures.</li>
                             </ul>
                         </div>
+
+                        <!-- Bandung -->
                         <div class="edu-item">
                             <div class="exp-header">
                                 <span class="exp-role">Aerospace Engineering</span>
-                                <span class="exp-date">2012 — 2018</span>
+                                <span class="exp-date">2012 - 2018</span>
                             </div>
-                            <div class="exp-company">ITB INDONESIA</div>
+                            <div class="exp-company">Bandung Institute of Technology</div>
+                            <ul class="exp-details">
+                                <li>This degree is mostly irrelevant for my professional career, but I always list it here for the fact that I'm able to grow as a person and able to learn and adapt in learning and doing different things.</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -217,7 +268,9 @@
                 <!-- Skills Row -->
                 <div class="resume-row">
                     <div class="resume-left">
-                        <h4>SKILLS_LIST</h4>
+                        <h4 data-text-simple="Skills" data-text-terminal="SKILLS_LIST" data-text-retro="Technical Skills">
+                            Skills
+                        </h4>
                     </div>
                     <div class="resume-right">
                         <div class="tech-tags">
@@ -242,10 +295,24 @@
         <!-- Footer -->
         <footer class="terminal-footer">
             <div class="footer-cmd">
-                <span style="color: var(--accent); margin-right: 10px;">➜</span>
-                <span style="color: #fff">git commit -m "update site"</span>
+                <span class="cmd-icon" style="color: var(--accent); margin-right: 10px;"
+                data-text-simple="➜"
+                data-text-terminal="➜"
+                data-text-retro="i">➜</span>
+                <span style="color: inherit" class="cmd-text"
+                      data-text-simple="Looking for work? Email me."
+                      data-text-terminal='git commit -m "update site"'
+                      data-text-retro="Designed for Internet Explorer 6.0">
+                      Looking for work? Email me.
+                </span>
             </div>
-            <p>&copy; <span id="year"></span> FAHRU_MUHAMAD // <a href="https://github.com/mfakhrusy/portal" target="_blank">SOURCE_CODE</a></p>
+            <p>&copy; <span id="year"></span> 
+                <span data-text-simple="Fakhrusy Muhamad" data-text-terminal="FAHRU_MUHAMAD" data-text-retro="Fakhrusy Muhamad">Fakhrusy Muhamad</span> // 
+                <a href="https://github.com/mfakhrusy/portal" target="_blank" 
+                   data-text-simple="Source Code"
+                   data-text-terminal="SOURCE_CODE" 
+                   data-text-retro="Source Code">Source Code</a>
+            </p>
         </footer>
     </main>
 
