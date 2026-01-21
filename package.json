@@ -1,0 +1,14 @@
+{
+  "name": "portal",
+  "version": "1.0.0",
+  "description": "Fahru's Personal Web Portal",
+  "scripts": {
+    "deploy": "wrangler pages deploy ."
+  },
+  "devDependencies": {
+    "wrangler": "^3.111.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
