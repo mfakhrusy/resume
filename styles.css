@@ -371,7 +371,8 @@ a:hover {
     color: var(--text-muted);
     margin-bottom: 1.5rem;
     font-weight: 400;
-    min-height: 1.6em; /* Reserve space to prevent layout shift during typing */
+    min-height: 2.4rem; /* Reserve space to prevent layout shift during typing */
+    line-height: 1.4;
 }
 
 .bio-block {
