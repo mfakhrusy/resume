@@ -240,10 +240,49 @@ body {
     opacity: 0.6;
 }
 
-/* Hide on mobile */
+/* Mobile: floating across screen */
 @media (max-width: 768px) {
     .peeking-robot {
-        display: none;
+        transform: translateY(-50%) scale(0.6);
+        transition: left 8s linear, right 8s linear, top 0.5s ease-out;
+        margin: 0;
+    }
+    
+    .peeking-robot.crossing {
+        transition: left 8s linear, right 8s linear, top 0.5s ease-out;
+    }
+    
+    .peeking-robot.stopped {
+        transition: none;
+        transform: translateY(-50%) scale(1.2);
+        z-index: 9999;
+    }
+    
+    .peeking-robot.vanish {
+        opacity: 0;
+        transform: translateY(-50%) scale(0.3);
+        transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    }
+    
+    .peeking-robot.crossing-right {
+        left: -80px;
+        right: auto;
+        transform: translateY(-50%) scale(0.6);
+    }
+    
+    .peeking-robot.crossing-left {
+        right: -80px;
+        left: auto;
+        transform: translateY(-50%) scale(0.6) scaleX(-1);
+    }
+    
+    .peeking-robot.floating {
+        animation: float-bob 3s ease-in-out infinite;
+    }
+    
+    @keyframes float-bob {
+        0%, 100% { margin-top: 0; }
+        50% { margin-top: -10px; }
     }
 }
 

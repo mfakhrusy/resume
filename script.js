@@ -158,6 +158,92 @@ document.addEventListener('DOMContentLoaded', () => {
                 pupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
             });
         });
+        
+        // Mobile: crossing behavior
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        
+        if (isMobile) {
+            let isCrossing = false;
+            let crossingTimeout = null;
+            let crossingInterval = null;
+            
+            const resetRobot = () => {
+                robot.classList.remove('crossing', 'crossing-left', 'crossing-right', 'floating', 'stopped', 'vanish');
+                robot.style.left = '';
+                robot.style.right = '';
+                robot.style.transition = '';
+                isCrossing = false;
+            };
+            
+            const startCrossing = () => {
+                if (isCrossing) return;
+                isCrossing = true;
+                
+                // Random direction
+                const goingRight = Math.random() > 0.5;
+                const startSide = goingRight ? 'crossing-right' : 'crossing-left';
+                
+                // Random Y position (20% - 80%)
+                const yPos = (Math.random() * 60 + 20);
+                
+                // Reset position
+                robot.classList.remove('side-left', 'side-right', 'peek', 'visible', 'hiding', 'crossing', 'crossing-left', 'crossing-right', 'stopped', 'vanish');
+                robot.classList.add(startSide, 'crossing', 'floating');
+                robot.style.top = `${yPos}%`;
+                robot.style.transition = '';
+                
+                // Start crossing after a frame
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        if (goingRight) {
+                            robot.style.left = `calc(100vw + 80px)`;
+                        } else {
+                            robot.style.right = `calc(100vw + 80px)`;
+                        }
+                    });
+                });
+                
+                // Reset after crossing
+                crossingTimeout = setTimeout(() => {
+                    resetRobot();
+                }, 9000);
+            };
+            
+            // Click to stop, vanish, then reappear
+            robot.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                // Stop movement immediately
+                clearTimeout(crossingTimeout);
+                const currentLeft = robot.getBoundingClientRect().left;
+                robot.style.transition = 'none';
+                robot.style.left = `${currentLeft}px`;
+                robot.style.right = 'auto';
+                robot.classList.remove('crossing', 'crossing-left', 'crossing-right', 'floating');
+                robot.classList.add('stopped');
+                
+                // Vanish after 1 second
+                setTimeout(() => {
+                    robot.classList.add('vanish');
+                    
+                    // Reappear after vanish animation
+                    setTimeout(() => {
+                        resetRobot();
+                        startCrossing();
+                    }, 400);
+                }, 1000);
+            });
+            
+            // Initial crossing after 4s
+            setTimeout(startCrossing, 4000);
+            
+            // Random crossings every 20-40s
+            crossingInterval = setInterval(() => {
+                if (!isCrossing) {
+                    startCrossing();
+                }
+            }, Math.random() * 20000 + 20000);
+        }
     }
 
     // Console System Init
