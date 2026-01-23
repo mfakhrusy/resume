@@ -191,6 +191,57 @@ body {
     50% { opacity: 0.3; }
 }
 
+/* Open to Work Badge */
+.status-badge.open-to-work {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.status-badge.open-to-work .indicator {
+    background-color: #fff;
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { 
+        opacity: 1; 
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+    }
+    50% { 
+        opacity: 0.8; 
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0);
+    }
+}
+
+[data-theme="terminal"] .status-badge.open-to-work {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 0;
+}
+
+[data-theme="terminal"] .status-badge.open-to-work .indicator {
+    background-color: var(--accent);
+}
+
+[data-theme="retro"] .status-badge.open-to-work {
+    background: #00ff00;
+    color: #000;
+    border: 2px outset #fff;
+    border-radius: 0;
+    font-weight: bold;
+}
+
+[data-theme="retro"] .status-badge.open-to-work .indicator {
+    background-color: #000;
+}
+
 /* Theme Select Dropdown */
 .theme-select {
     background: var(--btn-bg);
