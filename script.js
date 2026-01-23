@@ -80,6 +80,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 hideRobot(3000);
             }
         }, Math.random() * 20000 + 20000);
+        
+        // Eyes follow cursor
+        const pupils = robot.querySelectorAll('.pupil');
+        const maxMove = 3; // Max pixels pupils can move
+        
+        document.addEventListener('mousemove', (e) => {
+            const robotRect = robot.getBoundingClientRect();
+            const robotCenterX = robotRect.left + robotRect.width / 2;
+            const robotCenterY = robotRect.top + robotRect.height / 2;
+            
+            // Calculate direction to cursor
+            const deltaX = e.clientX - robotCenterX;
+            const deltaY = e.clientY - robotCenterY;
+            
+            // Normalize and clamp movement
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            const moveX = (deltaX / Math.max(distance, 1)) * maxMove;
+            const moveY = (deltaY / Math.max(distance, 1)) * maxMove;
+            
+            pupils.forEach(pupil => {
+                pupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
     }
 
     // Console System Init
