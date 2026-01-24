@@ -106,8 +106,7 @@ function activateWeapon(weaponType, element) {
     if (weaponType === 'hammer') {
         element.classList.add('active');
         document.body.classList.add('hammer-mode');
-        
-
+        document.body.style.userSelect = 'none';
     }
 }
 
@@ -117,8 +116,7 @@ function activateWeapon(weaponType, element) {
 function deactivateWeapon() {
     document.body.classList.remove('hammer-mode');
     document.querySelectorAll('.weapon-item').forEach(w => w.classList.remove('active'));
-    
-
+    document.body.style.userSelect = '';
 }
 
 /**
