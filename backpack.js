@@ -8,6 +8,17 @@ let activeWeaponType = null;
 let deployedCars = [];
 let carCursorRotation = 0; // Captured rotation when car is selected
 
+// Mouse position for car collision detection
+let mouseX = 0;
+let mouseY = 0;
+
+// Collision detection constants
+const MOUSE_HITBOX_RADIUS = 40; // Big cursor support
+const CAR_HITBOX_RADIUS = 40;
+const COLLISION_DISTANCE = MOUSE_HITBOX_RADIUS + CAR_HITBOX_RADIUS;
+const PANIC_DISTANCE = 150; // Fast avoidance zone
+const AWARENESS_DISTANCE = 250; // Gentle avoidance zone
+
 document.addEventListener('DOMContentLoaded', () => {
     // Create the weapon cache UI
     createWeaponCache();
@@ -22,6 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Setup weapon modes
     setupHammerMode();
     setupCarMode();
+    
+    // Global mouse tracking for car collision
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
 });
 
 /**
@@ -429,15 +446,69 @@ function deployCar(x, y) {
     
     deployedCars.push(carData);
     
-    // Animation loop
-    function animate() {
+    // Grace period - ignore mouse detection initially
+    let ignoreMouseFrames = 60; // ~1 second at 60fps
+    
+    // Car physics loop
+    function updateCarPhysics() {
+        const carWidth = 80;
+        const carHeight = 40;
+        
+        // Car center position
+        const carCenterX = posX + carWidth / 2;
+        const carCenterY = posY + carHeight / 2;
+        
+        // Distance to mouse
+        const dx = mouseX - carCenterX;
+        const dy = mouseY - carCenterY;
+        const distanceToMouse = Math.sqrt(dx * dx + dy * dy);
+        
+        // Decrement grace period
+        if (ignoreMouseFrames > 0) {
+            ignoreMouseFrames--;
+        }
+        
+        // Mouse collision and avoidance (skip during grace period)
+        if (ignoreMouseFrames <= 0 && distanceToMouse < COLLISION_DISTANCE) {
+            // Direct collision - bounce 180 degrees back
+            vx = -vx;
+            vy = -vy;
+            // Push car away from mouse to prevent sticking
+            const pushAngle = Math.atan2(-dy, -dx);
+            posX += Math.cos(pushAngle) * 10;
+            posY += Math.sin(pushAngle) * 10;
+            triggerBounceEffect(car, 'mouse');
+        } else if (ignoreMouseFrames <= 0 && distanceToMouse < PANIC_DISTANCE) {
+            // Panic mode - fast avoidance
+            const avoidAngle = Math.atan2(-dy, -dx);
+            const avoidStrength = 0.3 * (1 - distanceToMouse / PANIC_DISTANCE);
+            vx += Math.cos(avoidAngle) * avoidStrength;
+            vy += Math.sin(avoidAngle) * avoidStrength;
+        } else if (ignoreMouseFrames <= 0 && distanceToMouse < AWARENESS_DISTANCE) {
+            // Gentle awareness - slight steering away
+            const avoidAngle = Math.atan2(-dy, -dx);
+            const avoidStrength = 0.08 * (1 - distanceToMouse / AWARENESS_DISTANCE);
+            vx += Math.cos(avoidAngle) * avoidStrength;
+            vy += Math.sin(avoidAngle) * avoidStrength;
+        }
+        
+        // Clamp speed to prevent crazy acceleration
+        const currentSpeed = Math.sqrt(vx * vx + vy * vy);
+        const maxSpeed = 8;
+        const minSpeed = 2;
+        if (currentSpeed > maxSpeed) {
+            vx = (vx / currentSpeed) * maxSpeed;
+            vy = (vy / currentSpeed) * maxSpeed;
+        } else if (currentSpeed < minSpeed) {
+            vx = (vx / currentSpeed) * minSpeed;
+            vy = (vy / currentSpeed) * minSpeed;
+        }
+        
         // Update position
         posX += vx;
         posY += vy;
         
         // Bounce off edges with some energy retention
-        const carWidth = 80;
-        const carHeight = 40;
         const bounceEnergy = 0.95;
         
         // Left/right bounds
@@ -468,10 +539,10 @@ function deployCar(x, y) {
         car.style.top = posY + 'px';
         car.style.transform = `rotate(${rotation}deg)`;
         
-        carData.animationId = requestAnimationFrame(animate);
+        carData.animationId = requestAnimationFrame(updateCarPhysics);
     }
     
-    carData.animationId = requestAnimationFrame(animate);
+    carData.animationId = requestAnimationFrame(updateCarPhysics);
 }
 
 /**
@@ -480,7 +551,22 @@ function deployCar(x, y) {
 function triggerBounceEffect(car, direction) {
     car.classList.add('bouncing');
     
-    // Add a little bump animation
+    // Mouse collision gets special treatment
+    if (direction === 'mouse') {
+        car.classList.add('mouse-hit');
+        car.animate([
+            { transform: car.style.transform, filter: 'brightness(2)' },
+            { transform: car.style.transform + ' scale(1.2)', filter: 'brightness(1.5)' },
+            { transform: car.style.transform, filter: 'brightness(1)' }
+        ], {
+            duration: 200,
+            easing: 'ease-out'
+        });
+        setTimeout(() => car.classList.remove('bouncing', 'mouse-hit'), 200);
+        return;
+    }
+    
+    // Add a little bump animation for wall bounces
     let bumpX = 0, bumpY = 0;
     if (direction === 'left') bumpX = 5;
     if (direction === 'right') bumpX = -5;
