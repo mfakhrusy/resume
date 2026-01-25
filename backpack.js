@@ -187,8 +187,8 @@ function setupHammerMode() {
         hammerCursor.style.top = (e.pageY - 64) + 'px';
     });
     
-    // Handle clicks (hammer swing)
-    document.addEventListener('click', (e) => {
+    // Handle mousedown (hammer swing) - more responsive than click
+    document.addEventListener('mousedown', (e) => {
         if (!document.body.classList.contains('hammer-mode')) return;
         
         // Don't trigger on UI elements
