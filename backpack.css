@@ -152,6 +152,14 @@ body.hammer-mode * {
     cursor: none !important;
 }
 
+/* Disable all links and buttons in hammer mode */
+body.hammer-mode a,
+body.hammer-mode button:not(.cache-toggle),
+body.hammer-mode [role="button"],
+body.hammer-mode .portal-card {
+    pointer-events: none;
+}
+
 /* Car Cursor Mode */
 .car-cursor {
     position: absolute;
@@ -191,6 +199,10 @@ body.car-mode * {
 
 .deployed-car.bouncing {
     filter: drop-shadow(0 0 8px var(--accent));
+}
+
+.deployed-car.stunned {
+    filter: drop-shadow(0 0 12px #ff4444) brightness(1.3);
 }
 
 /* Car icon in weapon tray - keep it white and spin */

@@ -18,6 +18,7 @@ const CAR_HITBOX_RADIUS = 40;
 const COLLISION_DISTANCE = MOUSE_HITBOX_RADIUS + CAR_HITBOX_RADIUS;
 const PANIC_DISTANCE = 150; // Fast avoidance zone
 const AWARENESS_DISTANCE = 250; // Gentle avoidance zone
+const HAMMER_HIT_RADIUS = 60; // not so big and not so small hitbox
 
 document.addEventListener('DOMContentLoaded', () => {
     // Create the weapon cache UI
@@ -217,11 +218,20 @@ function setupHammerMode() {
         document.body.classList.add('screen-shake');
         
         // Create crack at hammer HEAD position (offset from cursor toward upper-left)
+        const hammerHitX = e.clientX - 100;
+        const hammerHitY = e.clientY - 50;
+        
         setTimeout(() => {
-            const crackX = e.pageX - 100;
-            const crackY = e.pageY - 50;
-            createCrack(crackX, crackY);
-            createImpactFlash(crackX, crackY);
+            // Check if hammer hit any cars first
+            const hitCar = checkHammerCarCollision(hammerHitX, hammerHitY);
+            
+            // Only create crack if no car was hit
+            if (!hitCar) {
+                const crackX = e.pageX - 100;
+                const crackY = e.pageY - 50;
+                createCrack(crackX, crackY);
+                createImpactFlash(crackX, crackY);
+            }
         }, 60);
         
         // Reset shake
@@ -477,7 +487,8 @@ function deployCar(x, y) {
             const pushAngle = Math.atan2(-dy, -dx);
             posX += Math.cos(pushAngle) * 10;
             posY += Math.sin(pushAngle) * 10;
-            triggerBounceEffect(car, 'mouse');
+            const newRotation = Math.atan2(vy, vx) * (180 / Math.PI);
+            triggerBounceEffect(car, 'mouse', newRotation);
         } else if (ignoreMouseFrames <= 0 && distanceToMouse < PANIC_DISTANCE) {
             // Panic mode - fast avoidance
             const avoidAngle = Math.atan2(-dy, -dx);
@@ -515,22 +526,26 @@ function deployCar(x, y) {
         if (posX < 0) {
             posX = 0;
             vx = -vx * bounceEnergy;
-            triggerBounceEffect(car, 'left');
+            const newRotation = Math.atan2(vy, vx) * (180 / Math.PI);
+            triggerBounceEffect(car, 'left', newRotation);
         } else if (posX > window.innerWidth - carWidth) {
             posX = window.innerWidth - carWidth;
             vx = -vx * bounceEnergy;
-            triggerBounceEffect(car, 'right');
+            const newRotation = Math.atan2(vy, vx) * (180 / Math.PI);
+            triggerBounceEffect(car, 'right', newRotation);
         }
         
         // Top/bottom bounds
         if (posY < 0) {
             posY = 0;
             vy = -vy * bounceEnergy;
-            triggerBounceEffect(car, 'top');
+            const newRotation = Math.atan2(vy, vx) * (180 / Math.PI);
+            triggerBounceEffect(car, 'top', newRotation);
         } else if (posY > window.innerHeight - carHeight) {
             posY = window.innerHeight - carHeight;
             vy = -vy * bounceEnergy;
-            triggerBounceEffect(car, 'bottom');
+            const newRotation = Math.atan2(vy, vx) * (180 / Math.PI);
+            triggerBounceEffect(car, 'bottom', newRotation);
         }
         
         // Update car position and rotation based on velocity
@@ -547,17 +562,23 @@ function deployCar(x, y) {
 
 /**
  * Trigger bounce effect on car
+ * @param {HTMLElement} car - The car element
+ * @param {string} direction - Bounce direction
+ * @param {string} newRotation - The new rotation after velocity reversal
  */
-function triggerBounceEffect(car, direction) {
+function triggerBounceEffect(car, direction, newRotation) {
     car.classList.add('bouncing');
+    
+    const baseTransform = `rotate(${newRotation}deg)`;
     
     // Mouse collision gets special treatment
     if (direction === 'mouse') {
         car.classList.add('mouse-hit');
+        car.style.transform = baseTransform;
         car.animate([
-            { transform: car.style.transform, filter: 'brightness(2)' },
-            { transform: car.style.transform + ' scale(1.2)', filter: 'brightness(1.5)' },
-            { transform: car.style.transform, filter: 'brightness(1)' }
+            { transform: baseTransform, filter: 'brightness(2)' },
+            { transform: baseTransform + ' scale(1.2)', filter: 'brightness(1.5)' },
+            { transform: baseTransform, filter: 'brightness(1)' }
         ], {
             duration: 200,
             easing: 'ease-out'
@@ -573,10 +594,11 @@ function triggerBounceEffect(car, direction) {
     if (direction === 'top') bumpY = 5;
     if (direction === 'bottom') bumpY = -5;
     
+    car.style.transform = baseTransform;
     car.animate([
-        { transform: car.style.transform },
-        { transform: car.style.transform + ` translate(${bumpX}px, ${bumpY}px) scaleY(0.8)` },
-        { transform: car.style.transform }
+        { transform: baseTransform },
+        { transform: baseTransform + ` translate(${bumpX}px, ${bumpY}px) scaleY(0.8)` },
+        { transform: baseTransform }
     ], {
         duration: 150,
         easing: 'ease-out'
@@ -627,4 +649,189 @@ function recallAllCars() {
     
     deployedCars = [];
     updateCarRecallBadge();
+}
+
+/**
+ * Check if hammer hit any deployed cars and trigger spin effect
+ * @returns {boolean} True if a car was hit
+ */
+function checkHammerCarCollision(hitX, hitY) {
+    let hitCar = false;
+    
+    deployedCars.forEach(carData => {
+        if (carData.isStunned) return; // Already stunned
+        
+        const car = carData.element;
+        const rect = car.getBoundingClientRect();
+        const carCenterX = rect.left + rect.width / 2;
+        const carCenterY = rect.top + rect.height / 2;
+        
+        const dx = hitX - carCenterX;
+        const dy = hitY - carCenterY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < HAMMER_HIT_RADIUS) {
+            stunCar(carData);
+            hitCar = true;
+        }
+    });
+    
+    return hitCar;
+}
+
+/**
+ * Stun a car - spin it 360-720 degrees, pause 2 seconds, then resume
+ */
+function stunCar(carData) {
+    carData.isStunned = true;
+    
+    // Cancel current animation
+    if (carData.animationId) {
+        cancelAnimationFrame(carData.animationId);
+        carData.animationId = null;
+    }
+    
+    const car = carData.element;
+    
+    // Get current rotation
+    const currentTransform = car.style.transform;
+    const rotationMatch = currentTransform.match(/rotate\(([-\d.]+)deg\)/);
+    const currentRotation = rotationMatch ? parseFloat(rotationMatch[1]) : 0;
+    
+    // Random spin: 360 to 720 degrees
+    const spinAmount = 360 + Math.random() * 360;
+    const finalRotation = currentRotation + spinAmount;
+    
+    // Add stunned class for visual effect
+    car.classList.add('stunned');
+    
+    // Animate the spin using Web Animations API for reliable rotation
+    const spinAnimation = car.animate([
+        { transform: `rotate(${currentRotation}deg)` },
+        { transform: `rotate(${finalRotation}deg)` }
+    ], {
+        duration: 600,
+        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        fill: 'forwards'
+    });
+    
+    // After spin completes, wait 2 seconds then resume
+    spinAnimation.onfinish = () => {
+        // Commit animation styles and cancel to avoid interference with physics
+        spinAnimation.commitStyles();
+        spinAnimation.cancel();
+        car.style.transform = `rotate(${finalRotation}deg)`;
+        
+        // Wait 2 seconds
+        setTimeout(() => {
+            car.classList.remove('stunned');
+            carData.isStunned = false;
+            
+            // Resume movement with new direction based on final rotation
+            resumeCarMovement(carData, finalRotation);
+        }, 2000);
+    };
+}
+
+/**
+ * Resume car movement after stun
+ */
+function resumeCarMovement(carData, rotation) {
+    const car = carData.element;
+    
+    // Get current position
+    let posX = parseFloat(car.style.left);
+    let posY = parseFloat(car.style.top);
+    
+    // Set velocity based on rotation
+    const speed = 3 + Math.random() * 2;
+    const angle = rotation * (Math.PI / 180);
+    let vx = Math.cos(angle) * speed;
+    let vy = Math.sin(angle) * speed;
+    
+    const carWidth = 80;
+    const carHeight = 40;
+    
+    function updateCarPhysics() {
+        if (carData.isStunned) return;
+        
+        const carCenterX = posX + carWidth / 2;
+        const carCenterY = posY + carHeight / 2;
+        
+        const dx = mouseX - carCenterX;
+        const dy = mouseY - carCenterY;
+        const distanceToMouse = Math.sqrt(dx * dx + dy * dy);
+        
+        // Mouse collision and avoidance
+        if (distanceToMouse < COLLISION_DISTANCE) {
+            vx = -vx;
+            vy = -vy;
+            const pushAngle = Math.atan2(-dy, -dx);
+            posX += Math.cos(pushAngle) * 10;
+            posY += Math.sin(pushAngle) * 10;
+            const newRot = Math.atan2(vy, vx) * (180 / Math.PI);
+            triggerBounceEffect(car, 'mouse', newRot);
+        } else if (distanceToMouse < PANIC_DISTANCE) {
+            const avoidAngle = Math.atan2(-dy, -dx);
+            const avoidStrength = 0.3 * (1 - distanceToMouse / PANIC_DISTANCE);
+            vx += Math.cos(avoidAngle) * avoidStrength;
+            vy += Math.sin(avoidAngle) * avoidStrength;
+        } else if (distanceToMouse < AWARENESS_DISTANCE) {
+            const avoidAngle = Math.atan2(-dy, -dx);
+            const avoidStrength = 0.08 * (1 - distanceToMouse / AWARENESS_DISTANCE);
+            vx += Math.cos(avoidAngle) * avoidStrength;
+            vy += Math.sin(avoidAngle) * avoidStrength;
+        }
+        
+        // Clamp speed
+        const currentSpeed = Math.sqrt(vx * vx + vy * vy);
+        const maxSpeed = 8;
+        const minSpeed = 2;
+        if (currentSpeed > maxSpeed) {
+            vx = (vx / currentSpeed) * maxSpeed;
+            vy = (vy / currentSpeed) * maxSpeed;
+        } else if (currentSpeed < minSpeed) {
+            vx = (vx / currentSpeed) * minSpeed;
+            vy = (vy / currentSpeed) * minSpeed;
+        }
+        
+        posX += vx;
+        posY += vy;
+        
+        // Bounce off edges
+        const bounceEnergy = 0.95;
+        
+        if (posX < 0) {
+            posX = 0;
+            vx = -vx * bounceEnergy;
+            const newRot = Math.atan2(vy, vx) * (180 / Math.PI);
+            triggerBounceEffect(car, 'left', newRot);
+        } else if (posX > window.innerWidth - carWidth) {
+            posX = window.innerWidth - carWidth;
+            vx = -vx * bounceEnergy;
+            const newRot = Math.atan2(vy, vx) * (180 / Math.PI);
+            triggerBounceEffect(car, 'right', newRot);
+        }
+        
+        if (posY < 0) {
+            posY = 0;
+            vy = -vy * bounceEnergy;
+            const newRot = Math.atan2(vy, vx) * (180 / Math.PI);
+            triggerBounceEffect(car, 'top', newRot);
+        } else if (posY > window.innerHeight - carHeight) {
+            posY = window.innerHeight - carHeight;
+            vy = -vy * bounceEnergy;
+            const newRot = Math.atan2(vy, vx) * (180 / Math.PI);
+            triggerBounceEffect(car, 'bottom', newRot);
+        }
+        
+        const newRotation = Math.atan2(vy, vx) * (180 / Math.PI);
+        car.style.left = posX + 'px';
+        car.style.top = posY + 'px';
+        car.style.transform = `rotate(${newRotation}deg)`;
+        
+        carData.animationId = requestAnimationFrame(updateCarPhysics);
+    }
+    
+    carData.animationId = requestAnimationFrame(updateCarPhysics);
 }
