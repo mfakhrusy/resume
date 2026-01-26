@@ -210,7 +210,7 @@ body {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%;
+    left: 0;
     width: 100%;
     height: 100%;
     background: linear-gradient(
@@ -221,11 +221,12 @@ body {
     );
     animation: shimmer 3s ease-in-out infinite;
     animation-delay: 2s;
+    transform: translateX(-100%);
 }
 
 @keyframes shimmer {
-    0% { left: -100%; }
-    50%, 100% { left: 100%; }
+    0% { transform: translateX(-100%); }
+    50%, 100% { transform: translateX(100%); }
 }
 
 .status-badge.open-to-work .indicator {
@@ -301,6 +302,7 @@ body {
     max-width: 900px; /* Slightly tighter for text readability */
     margin: 0 auto;
     padding: 4rem 2rem;
+    padding-top: 5rem; /* Account for fixed navbar */
 }
 
 /* Typography Utilities */
@@ -1067,16 +1069,16 @@ section {
     width: 60px;
     height: 2px;
     background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    transform: translateY(-50%);
+    transform: translateY(-50%) translateX(-60px);
     animation: divider-sweep 4s ease-in-out infinite;
-    opacity: 0.8;
+    opacity: 0;
 }
 
 @keyframes divider-sweep {
-    0%, 100% { left: -60px; opacity: 0; }
+    0%, 100% { transform: translateY(-50%) translateX(-60px); opacity: 0; }
     10% { opacity: 0.8; }
+    50% { transform: translateY(-50%) translateX(300px); }
     90% { opacity: 0.8; }
-    50% { left: calc(100% + 60px); }
 }
 
 [data-theme="terminal"] .divider-line {
@@ -1514,7 +1516,8 @@ section {
     }
     
     /* Keep badge and location, hide the rest */
-    .status-left .status-item:nth-child(n+3) {
+    .status-item#remote,
+    .status-item#relocate {
         display: none;
     }
     

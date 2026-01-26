@@ -130,89 +130,91 @@
         });
     });
     
-    // Mobile: crossing behavior
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    
-    if (isMobile) {
-        let isCrossing = false;
-        let crossingTimeout = null;
-        let crossingInterval = null;
-        
-        const resetRobot = () => {
-            robot.classList.remove('crossing', 'crossing-left', 'crossing-right', 'floating', 'stopped', 'vanish');
-            robot.style.left = '';
-            robot.style.right = '';
-            robot.style.transition = '';
-            isCrossing = false;
-        };
-        
-        const startCrossing = () => {
-            if (isCrossing) return;
-            isCrossing = true;
-            
-            // Random direction
-            const goingRight = Math.random() > 0.5;
-            const startSide = goingRight ? 'crossing-right' : 'crossing-left';
-            
-            // Random Y position (20% - 80%)
-            const yPos = (Math.random() * 60 + 20);
-            
-            // Reset position and randomize variant
-            robot.classList.remove('side-left', 'side-right', 'peek', 'visible', 'hiding', 'crossing', 'crossing-left', 'crossing-right', 'stopped', 'vanish');
-            robot.classList.add(startSide, 'crossing', 'floating');
-            setRandomVariant();
-            robot.style.top = `${yPos}%`;
-            robot.style.transition = '';
-            
-            // Start crossing after a frame
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    if (goingRight) {
-                        robot.style.left = `calc(100vw + 80px)`;
-                    } else {
-                        robot.style.right = `calc(100vw + 80px)`;
-                    }
-                });
-            });
-            
-            // Reset after crossing
-            crossingTimeout = setTimeout(() => {
-                resetRobot();
-            }, 9000);
-        };
-        
-        // Click to jumpscare, then vanish and reappear
-        robot.addEventListener('click', (e) => {
-            e.stopPropagation();
-            
-            clearTimeout(crossingTimeout);
-            robot.style.transition = '';
-            robot.style.left = '';
-            robot.style.right = '';
-            robot.classList.remove('crossing', 'crossing-left', 'crossing-right', 'floating', 'stopped');
-            robot.classList.add('jumpscare');
-            
-            // Vanish after jumpscare
-            setTimeout(() => {
-                robot.classList.remove('jumpscare');
-                robot.classList.add('vanish');
-                
-                // Reappear after vanish animation
-                setTimeout(() => {
-                    resetRobot();
-                    startCrossing();
-                }, 400);
-            }, 800);
-        });
-        
-        // Initial crossing after 4s
-        setTimeout(startCrossing, 4000);
-        
-        // Random crossings every 20-40s
-        crossingInterval = setInterval(() => {
-            if (!isCrossing) {
-                startCrossing();
-            }
-        }, Math.random() * 20000 + 20000);
-    }
+    // Mobile: crossing behavior (DISABLED for now)
+    // const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    // 
+    // if (isMobile) {
+    //     let isCrossing = false;
+    //     let crossingTimeout = null;
+    //     let crossingInterval = null;
+    //     
+    //     const resetRobot = () => {
+    //         robot.classList.remove('crossing', 'crossing-left', 'crossing-right', 'floating', 'stopped', 'vanish');
+    //         robot.style.left = '';
+    //         robot.style.right = '';
+    //         robot.style.transform = '';
+    //         robot.style.transition = '';
+    //         isCrossing = false;
+    //     };
+    //     
+    //     const startCrossing = () => {
+    //         if (isCrossing) return;
+    //         isCrossing = true;
+    //         
+    //         // Random direction
+    //         const goingRight = Math.random() > 0.5;
+    //         const startSide = goingRight ? 'crossing-right' : 'crossing-left';
+    //         
+    //         // Random Y position (20% - 80%)
+    //         const yPos = (Math.random() * 60 + 20);
+    //         
+    //         // Reset position and randomize variant
+    //         robot.classList.remove('side-left', 'side-right', 'peek', 'visible', 'hiding', 'crossing', 'crossing-left', 'crossing-right', 'stopped', 'vanish');
+    //         robot.classList.add(startSide, 'crossing', 'floating');
+    //         setRandomVariant();
+    //         robot.style.top = `${yPos}%`;
+    //         robot.style.transition = '';
+    //         
+    //         // Start crossing after a frame - use transform to avoid layout shifts
+    //         requestAnimationFrame(() => {
+    //             requestAnimationFrame(() => {
+    //                 const distance = window.innerWidth + 160; // 80px start + 80px end
+    //                 if (goingRight) {
+    //                     robot.style.transform = `translateY(-50%) scale(0.7) translateX(${distance}px)`;
+    //                 } else {
+    //                     robot.style.transform = `translateY(-50%) scale(0.7) translateX(-${distance}px)`;
+    //                 }
+    //             });
+    //         });
+    //         
+    //         // Reset after crossing
+    //         crossingTimeout = setTimeout(() => {
+    //             resetRobot();
+    //         }, 9000);
+    //     };
+    //     
+    //     // Click to jumpscare, then vanish and reappear
+    //     robot.addEventListener('click', (e) => {
+    //         e.stopPropagation();
+    //         
+    //         clearTimeout(crossingTimeout);
+    //         robot.style.transition = '';
+    //         robot.style.left = '';
+    //         robot.style.right = '';
+    //         robot.classList.remove('crossing', 'crossing-left', 'crossing-right', 'floating', 'stopped');
+    //         robot.classList.add('jumpscare');
+    //         
+    //         // Vanish after jumpscare
+    //         setTimeout(() => {
+    //             robot.classList.remove('jumpscare');
+    //             robot.classList.add('vanish');
+    //             
+    //             // Reappear after vanish animation
+    //             setTimeout(() => {
+    //                 resetRobot();
+    //                 startCrossing();
+    //             }, 400);
+    //         }, 800);
+    //     });
+    //     
+    //     // Initial crossing after 4s
+    //     setTimeout(startCrossing, 4000);
+    //     
+    //     // Random crossings every 20-40s
+    //     crossingInterval = setInterval(() => {
+    //         if (!isCrossing) {
+    //             startCrossing();
+    //         }
+    //     }, Math.random() * 20000 + 20000);
+    // }
 })();
