@@ -273,6 +273,20 @@ body {
     background-color: #f7f6f2;
 }
 
+[data-theme="signal"] .status-badge.open-to-work {
+    background: linear-gradient(135deg, rgba(7, 42, 200, 0.95), rgba(30, 150, 252, 0.9));
+    color: #ffffff;
+    border-radius: 999px;
+    padding: 4px 12px;
+    letter-spacing: 0.08em;
+    box-shadow: 0 8px 18px -12px rgba(7, 42, 200, 0.7), 0 0 0 1px rgba(7, 42, 200, 0.45);
+}
+
+[data-theme="signal"] .status-badge.open-to-work .indicator {
+    background-color: #ffc600;
+    box-shadow: 0 0 0 4px rgba(255, 198, 0, 0.2), 0 0 12px rgba(255, 198, 0, 0.6);
+}
+
 [data-theme="terminal"] .system-status-bar {
     background-color: var(--bg-color);
     text-transform: uppercase;
@@ -416,6 +430,17 @@ body {
     font-size: 0.7rem;
 }
 
+[data-theme="signal"] .theme-select {
+    border-radius: 999px;
+    background: #072ac8;
+    color: #ffffff;
+    border: 1px solid rgba(7, 42, 200, 0.6);
+    letter-spacing: 0.08em;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    box-shadow: 0 8px 20px -14px rgba(7, 42, 200, 0.7);
+}
+
 [data-theme="terminal"] .theme-select option {
     background: #050505;
     color: var(--accent);
@@ -487,6 +512,19 @@ a:hover {
     background: linear-gradient(160deg, rgba(7, 42, 200, 0.14), rgba(30, 150, 252, 0.22) 55%, rgba(255, 198, 0, 0.2));
     border: 1px solid rgba(7, 42, 200, 0.32);
     box-shadow: 0 26px 60px -30px rgba(7, 42, 200, 0.45);
+}
+
+[data-theme="signal"] .hero-section::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -20px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: 1px solid rgba(7, 42, 200, 0.35);
+    box-shadow: 0 0 0 10px rgba(7, 42, 200, 0.08), 0 0 50px rgba(7, 42, 200, 0.18);
+    pointer-events: none;
 }
 
 [data-theme="editorial"] .hero-section {
@@ -736,6 +774,10 @@ section {
     padding-bottom: 0.65rem;
 }
 
+[data-theme="signal"] .section-header {
+    border-bottom: 1px solid rgba(7, 42, 200, 0.35);
+}
+
 [data-theme="editorial"] .section-header::after {
     content: '';
     position: absolute;
@@ -759,6 +801,16 @@ section {
     font-size: 0.85rem;
 }
 
+[data-theme="signal"] .section-header h3 {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.9rem;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid rgba(7, 42, 200, 0.4);
+    background: rgba(7, 42, 200, 0.08);
+}
+
 .section-line {
     flex-grow: 1;
     height: 1px;
@@ -768,6 +820,16 @@ section {
 
 [data-theme="editorial"] .section-line {
     background: linear-gradient(90deg, rgba(17, 17, 17, 0.5), rgba(255, 90, 60, 0.35), transparent 70%);
+}
+
+[data-theme="signal"] .section-line {
+    background: repeating-linear-gradient(
+        90deg,
+        rgba(7, 42, 200, 0.55),
+        rgba(7, 42, 200, 0.55) 8px,
+        transparent 8px,
+        transparent 16px
+    );
 }
 
 [data-theme="terminal"] .section-line {
