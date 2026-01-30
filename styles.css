@@ -523,18 +523,6 @@ a:hover {
     }
 }
 
-[data-theme="terminal"] .hero-section::before {
-    display: block;
-    content: 'SECTION: IDENTITY';
-    position: absolute;
-    top: -10px;
-    left: 20px;
-    background: var(--bg-color);
-    padding: 0 10px;
-    color: var(--text-muted);
-    font-size: 0.75rem;
-}
-
 .intro-line {
     color: var(--text-muted);
     margin-bottom: 0.5rem;
