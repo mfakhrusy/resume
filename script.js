@@ -163,7 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('mousemove', (e) => {
             const moveX = (e.clientX / window.innerWidth - 0.5) * 12;
             const moveY = (e.clientY / window.innerHeight - 0.5) * 12;
-            heroAmbient.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+            heroAmbient.style.setProperty('--hero-parallax-x', `${moveX}px`);
+            heroAmbient.style.setProperty('--hero-parallax-y', `${moveY}px`);
         });
     }
 

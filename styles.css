@@ -12,6 +12,10 @@
     --surface-glow: rgba(37, 99, 235, 0.12);
     --hero-ambient: radial-gradient(120% 120% at 10% 10%, rgba(37, 99, 235, 0.12), transparent 60%),
         radial-gradient(140% 120% at 90% 10%, rgba(249, 115, 22, 0.16), transparent 55%);
+    --hero-lava-1: radial-gradient(55% 60% at 30% 30%, rgba(37, 99, 235, 0.22), transparent 70%),
+        radial-gradient(45% 50% at 75% 20%, rgba(249, 115, 22, 0.18), transparent 68%);
+    --hero-lava-2: radial-gradient(50% 55% at 70% 65%, rgba(37, 99, 235, 0.18), transparent 72%),
+        radial-gradient(45% 50% at 25% 70%, rgba(249, 115, 22, 0.2), transparent 70%);
     --hero-stroke: linear-gradient(120deg, rgba(37, 99, 235, 0.3), rgba(249, 115, 22, 0.4));
     --hero-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
     
@@ -41,6 +45,10 @@
     --surface-glow: rgba(0, 243, 255, 0.2);
     --hero-ambient: radial-gradient(120% 120% at 10% 10%, rgba(0, 243, 255, 0.18), transparent 60%),
         radial-gradient(140% 120% at 90% 10%, rgba(255, 122, 24, 0.12), transparent 55%);
+    --hero-lava-1: radial-gradient(55% 60% at 28% 32%, rgba(0, 243, 255, 0.26), transparent 70%),
+        radial-gradient(45% 50% at 75% 18%, rgba(255, 122, 24, 0.22), transparent 68%);
+    --hero-lava-2: radial-gradient(50% 55% at 70% 66%, rgba(0, 243, 255, 0.2), transparent 72%),
+        radial-gradient(45% 50% at 25% 70%, rgba(255, 122, 24, 0.2), transparent 70%);
     --hero-stroke: linear-gradient(120deg, rgba(0, 243, 255, 0.4), rgba(255, 122, 24, 0.5));
     --hero-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
     
@@ -70,6 +78,10 @@
     --surface-glow: rgba(125, 207, 182, 0.35);
     --hero-ambient: radial-gradient(120% 120% at 10% 10%, rgba(252, 159, 91, 0.25), transparent 60%),
         radial-gradient(140% 120% at 90% 10%, rgba(125, 207, 182, 0.35), transparent 55%);
+    --hero-lava-1: radial-gradient(55% 60% at 30% 30%, rgba(252, 159, 91, 0.35), transparent 70%),
+        radial-gradient(45% 50% at 75% 20%, rgba(51, 202, 127, 0.3), transparent 68%);
+    --hero-lava-2: radial-gradient(50% 55% at 70% 65%, rgba(252, 159, 91, 0.28), transparent 72%),
+        radial-gradient(45% 50% at 25% 70%, rgba(51, 202, 127, 0.28), transparent 70%);
     --hero-stroke: linear-gradient(120deg, rgba(252, 159, 91, 0.5), rgba(51, 202, 127, 0.45));
     --hero-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
 
@@ -99,6 +111,10 @@
     --surface-glow: rgba(30, 150, 252, 0.35);
     --hero-ambient: radial-gradient(120% 120% at 12% 12%, rgba(30, 150, 252, 0.4), transparent 60%),
         radial-gradient(140% 120% at 90% 8%, rgba(255, 198, 0, 0.35), transparent 55%);
+    --hero-lava-1: radial-gradient(55% 60% at 30% 30%, rgba(30, 150, 252, 0.45), transparent 70%),
+        radial-gradient(45% 50% at 75% 18%, rgba(255, 198, 0, 0.4), transparent 68%);
+    --hero-lava-2: radial-gradient(50% 55% at 70% 66%, rgba(30, 150, 252, 0.36), transparent 72%),
+        radial-gradient(45% 50% at 25% 70%, rgba(255, 198, 0, 0.35), transparent 70%);
     --hero-stroke: linear-gradient(120deg, rgba(7, 42, 200, 0.5), rgba(255, 198, 0, 0.55));
     --hero-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
 
@@ -411,10 +427,36 @@ a:hover {
     inset: -20% -10% auto;
     height: 140%;
     background: var(--hero-ambient);
-    filter: blur(12px);
+    background-size: 140% 140%;
+    background-position: 0% 0%;
+    filter: blur(18px) saturate(1.2);
     opacity: 0.9;
-    animation: hero-drift 18s ease-in-out infinite;
+    pointer-events: none;
+    transform: translate3d(var(--hero-parallax-x, 0px), var(--hero-parallax-y, 0px), 0);
+    animation: hero-drift 16s ease-in-out infinite;
+    will-change: transform, background-position;
     z-index: 0;
+}
+
+.hero-ambient::before,
+.hero-ambient::after {
+    content: '';
+    position: absolute;
+    inset: -25% -15%;
+    background: var(--hero-lava-1);
+    opacity: 0.75;
+    filter: blur(22px) saturate(1.25);
+    mix-blend-mode: screen;
+    animation: hero-lava-a 18s ease-in-out infinite;
+    transform-origin: 40% 45%;
+}
+
+.hero-ambient::after {
+    background: var(--hero-lava-2);
+    opacity: 0.65;
+    filter: blur(26px) saturate(1.15);
+    animation: hero-lava-b 22s ease-in-out infinite;
+    transform-origin: 60% 55%;
 }
 
 .hero-section::after {
@@ -436,8 +478,39 @@ a:hover {
 }
 
 @keyframes hero-drift {
-    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-    50% { transform: translate3d(2%, -3%, 0) scale(1.04); }
+    0%, 100% { background-position: 0% 0%; }
+    35% { background-position: 50% 20%; }
+    70% { background-position: 10% 40%; }
+}
+
+@keyframes hero-lava-a {
+    0%, 100% {
+        transform: translate3d(-6%, -4%, 0) scale(1) rotate(-2deg);
+        opacity: 0.7;
+    }
+    35% {
+        transform: translate3d(8%, 6%, 0) scale(1.12) rotate(2deg);
+        opacity: 0.82;
+    }
+    70% {
+        transform: translate3d(4%, -8%, 0) scale(0.96) rotate(-1deg);
+        opacity: 0.68;
+    }
+}
+
+@keyframes hero-lava-b {
+    0%, 100% {
+        transform: translate3d(6%, 4%, 0) scale(1.04) rotate(1deg);
+        opacity: 0.6;
+    }
+    40% {
+        transform: translate3d(-8%, 3%, 0) scale(1.14) rotate(-2deg);
+        opacity: 0.72;
+    }
+    75% {
+        transform: translate3d(2%, -7%, 0) scale(0.94) rotate(1deg);
+        opacity: 0.58;
+    }
 }
 
 [data-theme="terminal"] .hero-section::before {
