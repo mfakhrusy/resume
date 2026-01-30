@@ -130,6 +130,39 @@
     --card-shadow: 0 18px 40px -24px rgba(7, 42, 200, 0.45), 0 8px 16px -10px rgba(7, 42, 200, 0.25);
 }
 
+/* Editorial Grid Theme */
+[data-theme="editorial"] {
+    --bg-color: #f7f6f2;
+    --text-main: #111111;
+    --text-muted: #5f5f5f;
+    --accent: #111111;
+    --accent-dim: rgba(17, 17, 17, 0.12);
+    --accent-2: #ff5a3c;
+    --accent-2-dim: rgba(255, 90, 60, 0.18);
+    --border-color: #1a1a1a;
+    --grid-line: rgba(17, 17, 17, 0.08);
+    --surface-glow: rgba(17, 17, 17, 0.08);
+    --hero-ambient: radial-gradient(120% 120% at 12% 12%, rgba(17, 17, 17, 0.08), transparent 60%),
+        radial-gradient(140% 120% at 88% 10%, rgba(255, 90, 60, 0.08), transparent 55%);
+    --hero-lava-1: radial-gradient(55% 60% at 30% 30%, rgba(17, 17, 17, 0.12), transparent 70%),
+        radial-gradient(45% 50% at 75% 20%, rgba(255, 90, 60, 0.12), transparent 68%);
+    --hero-lava-2: radial-gradient(50% 55% at 70% 66%, rgba(17, 17, 17, 0.1), transparent 72%),
+        radial-gradient(45% 50% at 25% 70%, rgba(255, 90, 60, 0.1), transparent 70%);
+    --hero-stroke: linear-gradient(120deg, rgba(17, 17, 17, 0.4), rgba(255, 90, 60, 0.45));
+    --hero-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+    --scanline-color: transparent;
+
+    --btn-bg: #f7f6f2;
+    --btn-border: 1px solid var(--border-color);
+    --btn-text: var(--text-main);
+
+    --card-bg: #fdfdfb;
+    --card-shadow: none;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -164,7 +197,8 @@ body {
 /* Terminal Background */
 [data-theme="terminal"],
 [data-theme="sorbet"],
-[data-theme="signal"] {
+[data-theme="signal"],
+[data-theme="editorial"] {
     background-image: 
         linear-gradient(var(--grid-line) 1px, transparent 1px),
         linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
@@ -221,6 +255,10 @@ body {
 
 [data-theme="sorbet"] .system-status-bar {
     background-color: rgba(236, 228, 183, 0.85);
+}
+
+[data-theme="editorial"] .system-status-bar {
+    background-color: rgba(247, 246, 242, 0.92);
 }
 
 [data-theme="terminal"] .system-status-bar {
@@ -1413,6 +1451,10 @@ section {
 
 [data-theme="signal"] .portal-card:not(.expanded)::after {
     background: linear-gradient(130deg, rgba(7, 42, 200, 0.45), rgba(56, 189, 248, 0.25)) border-box;
+}
+
+[data-theme="editorial"] .portal-card:not(.expanded)::after {
+    background: linear-gradient(130deg, rgba(17, 17, 17, 0.4), rgba(255, 90, 60, 0.35)) border-box;
 }
 
 .portal-card:not(.expanded):hover::after {

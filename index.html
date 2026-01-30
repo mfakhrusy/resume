@@ -22,7 +22,7 @@
     <!-- Theme: pick before CSS to avoid flicker -->
     <script>
         (function () {
-            const themes = ['simple', 'terminal', 'sorbet', 'signal'];
+            const themes = ['simple', 'terminal', 'sorbet', 'signal', 'editorial'];
             const storageKey = 'portal-theme-rotation';
             const lastTheme = sessionStorage.getItem(storageKey);
             let nextTheme = themes[Math.floor(Math.random() * themes.length)];
@@ -123,6 +123,7 @@
                     <option value="terminal">Theme: Terminal</option>
                     <option value="sorbet">Theme: Sorbet</option>
                     <option value="signal">Theme: Signal</option>
+                    <option value="editorial">Theme: Editorial</option>
                 </select>
             </div>
             <div class="status-item">
