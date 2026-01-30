@@ -261,6 +261,18 @@ body {
     background-color: rgba(247, 246, 242, 0.92);
 }
 
+[data-theme="editorial"] .status-badge.open-to-work {
+    background: #111111;
+    color: #f7f6f2;
+    border-radius: 4px;
+    padding: 4px 12px;
+    letter-spacing: 0.12em;
+}
+
+[data-theme="editorial"] .status-badge.open-to-work .indicator {
+    background-color: #f7f6f2;
+}
+
 [data-theme="terminal"] .system-status-bar {
     background-color: var(--bg-color);
     text-transform: uppercase;
@@ -395,6 +407,15 @@ body {
     box-shadow: 0 0 0 1px rgba(0, 243, 255, 0.35), 0 0 12px rgba(0, 243, 255, 0.18);
 }
 
+[data-theme="editorial"] .theme-select {
+    border-radius: 4px;
+    background: #f7f6f2;
+    border: 1px solid #111111;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.7rem;
+}
+
 [data-theme="terminal"] .theme-select option {
     background: #050505;
     color: var(--accent);
@@ -468,6 +489,21 @@ a:hover {
     box-shadow: 0 26px 60px -30px rgba(7, 42, 200, 0.45);
 }
 
+[data-theme="editorial"] .hero-section {
+    border-radius: 0;
+    border: 2px solid #111111;
+    background: linear-gradient(180deg, rgba(253, 253, 251, 0.96), rgba(247, 246, 242, 0.92));
+    box-shadow: none;
+}
+
+[data-theme="editorial"] .hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(17, 17, 17, 0.35);
+    pointer-events: none;
+}
+
 .hero-ambient {
     position: absolute;
     inset: -20% -10% auto;
@@ -520,6 +556,10 @@ a:hover {
     mask-composite: exclude;
     opacity: 0.35;
     pointer-events: none;
+}
+
+[data-theme="editorial"] .hero-section::after {
+    opacity: 0.15;
 }
 
 .hero-section > *:not(.hero-ambient) {
@@ -607,6 +647,13 @@ a:hover {
     opacity: 0.8;
 }
 
+[data-theme="editorial"] .name::after {
+    height: 3px;
+    border-radius: 0;
+    background: #111111;
+    opacity: 1;
+}
+
 .title {
     font-size: 1.5rem;
     color: var(--text-muted);
@@ -684,6 +731,21 @@ section {
     position: relative;
 }
 
+[data-theme="editorial"] .section-header {
+    border-bottom: 2px solid #111111;
+    padding-bottom: 0.65rem;
+}
+
+[data-theme="editorial"] .section-header::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -2px;
+    width: 80px;
+    height: 2px;
+    background: #ff5a3c;
+}
+
 .section-header h3 {
     font-size: 1.25rem;
     margin-right: 1rem;
@@ -691,11 +753,21 @@ section {
     letter-spacing: 0.02em;
 }
 
+[data-theme="editorial"] .section-header h3 {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.85rem;
+}
+
 .section-line {
     flex-grow: 1;
     height: 1px;
     /* No visual line for simple theme usually needed for clean look, but keeps alignment */
     background: linear-gradient(90deg, rgba(37, 99, 235, 0.35), rgba(249, 115, 22, 0.2), transparent 60%);
+}
+
+[data-theme="editorial"] .section-line {
+    background: linear-gradient(90deg, rgba(17, 17, 17, 0.5), rgba(255, 90, 60, 0.35), transparent 70%);
 }
 
 [data-theme="terminal"] .section-line {
@@ -1233,9 +1305,33 @@ section {
     transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, border-color 0.2s ease;
 }
 
+[data-theme="editorial"] .portal-card {
+    border-radius: 0;
+    border: 2px solid #111111;
+    box-shadow: none;
+}
+
+[data-theme="editorial"] .portal-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 32px;
+    background: #111111;
+    opacity: 0.08;
+    pointer-events: none;
+}
+
 .portal-card:hover {
     box-shadow: 0 24px 45px -20px rgba(37, 99, 235, 0.35);
     border-color: rgba(37, 99, 235, 0.45);
+}
+
+[data-theme="editorial"] .portal-card:hover {
+    border-color: #111111;
+    box-shadow: none;
+    transform: translateY(-4px);
 }
 
 [data-theme="signal"] .portal-card {
@@ -1316,6 +1412,12 @@ section {
     background: var(--card-bg);
     border-radius: inherit;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.92));
+}
+
+[data-theme="editorial"] .portal-card-inner {
+    background: #fdfdfb;
+    border-radius: 0;
+    padding-top: 2.1rem;
 }
 
 [data-theme="terminal"] .portal-card-inner {
