@@ -350,8 +350,16 @@ body {
 [data-theme="terminal"] .theme-select {
     border-radius: 0;
     color: var(--accent);
+    background: #050505;
+    border: 1px solid var(--accent);
     text-transform: uppercase;
     font-size: 0.7rem;
+    box-shadow: 0 0 0 1px rgba(0, 243, 255, 0.35), 0 0 12px rgba(0, 243, 255, 0.18);
+}
+
+[data-theme="terminal"] .theme-select option {
+    background: #050505;
+    color: var(--accent);
 }
 
 .container {
