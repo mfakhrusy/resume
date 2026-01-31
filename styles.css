@@ -10,13 +10,11 @@
     --border-color: #e2e8f0;
     --grid-line: transparent;
     --surface-glow: rgba(37, 99, 235, 0.12);
-    --hero-ambient: radial-gradient(120% 120% at 10% 10%, rgba(37, 99, 235, 0.12), transparent 60%),
-        radial-gradient(140% 120% at 90% 10%, rgba(249, 115, 22, 0.16), transparent 55%);
-    --hero-lava-1: radial-gradient(55% 60% at 30% 30%, rgba(37, 99, 235, 0.22), transparent 70%),
-        radial-gradient(45% 50% at 75% 20%, rgba(249, 115, 22, 0.18), transparent 68%);
-    --hero-lava-2: radial-gradient(50% 55% at 70% 65%, rgba(37, 99, 235, 0.18), transparent 72%),
-        radial-gradient(45% 50% at 25% 70%, rgba(249, 115, 22, 0.2), transparent 70%);
-    --hero-stroke: linear-gradient(120deg, rgba(37, 99, 235, 0.3), rgba(249, 115, 22, 0.4));
+    --hero-bg: rgba(255, 255, 255, 0.96);
+    --hero-ambient: none;
+    --hero-lava-1: none;
+    --hero-lava-2: none;
+    --hero-stroke: transparent;
     --hero-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
     
     --font-mono: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -43,13 +41,11 @@
     --border-color: #333;
     --grid-line: rgba(255, 255, 255, 0.03);
     --surface-glow: rgba(0, 243, 255, 0.2);
-    --hero-ambient: radial-gradient(120% 120% at 10% 10%, rgba(0, 243, 255, 0.18), transparent 60%),
-        radial-gradient(140% 120% at 90% 10%, rgba(255, 122, 24, 0.12), transparent 55%);
-    --hero-lava-1: radial-gradient(55% 60% at 28% 32%, rgba(0, 243, 255, 0.26), transparent 70%),
-        radial-gradient(45% 50% at 75% 18%, rgba(255, 122, 24, 0.22), transparent 68%);
-    --hero-lava-2: radial-gradient(50% 55% at 70% 66%, rgba(0, 243, 255, 0.2), transparent 72%),
-        radial-gradient(45% 50% at 25% 70%, rgba(255, 122, 24, 0.2), transparent 70%);
-    --hero-stroke: linear-gradient(120deg, rgba(0, 243, 255, 0.4), rgba(255, 122, 24, 0.5));
+    --hero-bg: rgba(5, 5, 5, 0.9);
+    --hero-ambient: none;
+    --hero-lava-1: none;
+    --hero-lava-2: none;
+    --hero-stroke: transparent;
     --hero-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
     
     --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
@@ -76,6 +72,7 @@
     --border-color: #fbd1a2;
     --grid-line: rgba(51, 202, 127, 0.08);
     --surface-glow: rgba(125, 207, 182, 0.35);
+    --hero-bg: linear-gradient(160deg, rgba(252, 159, 91, 0.18), rgba(236, 228, 183, 0.6) 55%, rgba(51, 202, 127, 0.15));
     --hero-ambient: radial-gradient(120% 120% at 10% 10%, rgba(252, 159, 91, 0.25), transparent 60%),
         radial-gradient(140% 120% at 90% 10%, rgba(125, 207, 182, 0.35), transparent 55%);
     --hero-lava-1: radial-gradient(55% 60% at 30% 30%, rgba(252, 159, 91, 0.35), transparent 70%),
@@ -109,13 +106,24 @@
     --border-color: rgba(7, 42, 200, 0.25);
     --grid-line: rgba(7, 42, 200, 0.12);
     --surface-glow: rgba(30, 150, 252, 0.35);
-    --hero-ambient: radial-gradient(120% 120% at 12% 12%, rgba(30, 150, 252, 0.4), transparent 60%),
-        radial-gradient(140% 120% at 90% 8%, rgba(255, 198, 0, 0.35), transparent 55%);
-    --hero-lava-1: radial-gradient(55% 60% at 30% 30%, rgba(30, 150, 252, 0.45), transparent 70%),
-        radial-gradient(45% 50% at 75% 18%, rgba(255, 198, 0, 0.4), transparent 68%);
-    --hero-lava-2: radial-gradient(50% 55% at 70% 66%, rgba(30, 150, 252, 0.36), transparent 72%),
-        radial-gradient(45% 50% at 25% 70%, rgba(255, 198, 0, 0.35), transparent 70%);
-    --hero-stroke: linear-gradient(120deg, rgba(7, 42, 200, 0.5), rgba(255, 198, 0, 0.55));
+    --hero-bg: linear-gradient(
+        120deg,
+        rgba(7, 42, 200, 0.18) 0 18%,
+        rgba(30, 150, 252, 0.26) 18% 38%,
+        rgba(255, 198, 0, 0.22) 38% 58%,
+        rgba(7, 42, 200, 0.2) 58% 78%,
+        rgba(30, 150, 252, 0.16) 78% 100%
+    );
+    --hero-ambient: none;
+    --hero-lava-1: none;
+    --hero-lava-2: none;
+    --hero-stroke: linear-gradient(
+        90deg,
+        rgba(7, 42, 200, 0.45) 0 25%,
+        rgba(255, 198, 0, 0.55) 25% 50%,
+        rgba(30, 150, 252, 0.45) 50% 75%,
+        rgba(7, 42, 200, 0.45) 75% 100%
+    );
     --hero-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
 
     --font-mono: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -142,13 +150,11 @@
     --border-color: #1a1a1a;
     --grid-line: rgba(17, 17, 17, 0.08);
     --surface-glow: rgba(17, 17, 17, 0.08);
-    --hero-ambient: radial-gradient(120% 120% at 12% 12%, rgba(17, 17, 17, 0.08), transparent 60%),
-        radial-gradient(140% 120% at 88% 10%, rgba(255, 90, 60, 0.08), transparent 55%);
-    --hero-lava-1: radial-gradient(55% 60% at 30% 30%, rgba(17, 17, 17, 0.12), transparent 70%),
-        radial-gradient(45% 50% at 75% 20%, rgba(255, 90, 60, 0.12), transparent 68%);
-    --hero-lava-2: radial-gradient(50% 55% at 70% 66%, rgba(17, 17, 17, 0.1), transparent 72%),
-        radial-gradient(45% 50% at 25% 70%, rgba(255, 90, 60, 0.1), transparent 70%);
-    --hero-stroke: linear-gradient(120deg, rgba(17, 17, 17, 0.4), rgba(255, 90, 60, 0.45));
+    --hero-bg: #fdfdfb;
+    --hero-ambient: none;
+    --hero-lava-1: none;
+    --hero-lava-2: none;
+    --hero-stroke: transparent;
     --hero-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
 
     --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
@@ -521,20 +527,18 @@ a:hover {
     margin-bottom: 1rem;
     border-radius: 24px;
     border: 1px solid rgba(148, 163, 184, 0.25);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 252, 0.86));
+    background: var(--hero-bg);
     box-shadow: 0 24px 60px -32px rgba(15, 23, 42, 0.35);
     overflow: hidden;
 }
 
 [data-theme="terminal"] .hero-section {
-    background: rgba(5, 5, 5, 0.82);
     border: 1px solid rgba(0, 243, 255, 0.35);
     padding: 2.5rem;
     box-shadow: 0 0 40px rgba(0, 243, 255, 0.15);
 }
 
 [data-theme="signal"] .hero-section {
-    background: linear-gradient(160deg, rgba(7, 42, 200, 0.14), rgba(30, 150, 252, 0.22) 55%, rgba(255, 198, 0, 0.2));
     border: 1px solid rgba(7, 42, 200, 0.32);
     box-shadow: 0 26px 60px -30px rgba(7, 42, 200, 0.45);
 }
@@ -553,7 +557,6 @@ a:hover {
 }
 
 [data-theme="sorbet"] .hero-section {
-    background: linear-gradient(160deg, rgba(252, 159, 91, 0.18), rgba(236, 228, 183, 0.6) 55%, rgba(51, 202, 127, 0.15));
     border: 1px solid rgba(251, 209, 162, 0.9);
     box-shadow: 0 24px 50px -32px rgba(106, 91, 80, 0.45);
 }
@@ -574,7 +577,6 @@ a:hover {
 [data-theme="editorial"] .hero-section {
     border-radius: 0;
     border: 2px solid #111111;
-    background: linear-gradient(180deg, rgba(253, 253, 251, 0.96), rgba(247, 246, 242, 0.92));
     box-shadow: none;
 }
 
