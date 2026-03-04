@@ -1196,6 +1196,49 @@ section {
     box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
 }
 
+/* Experience Tech Tags (per-role) */
+.exp-tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 6px;
+    margin-bottom: 8px;
+}
+
+.exp-tech-tags span {
+    display: inline-block;
+    font-size: 0.72rem;
+    background: var(--accent-dim);
+    padding: 2px 8px;
+    border-radius: 12px;
+    color: var(--text-muted);
+    border: 1px solid transparent;
+    letter-spacing: 0.02em;
+}
+
+[data-theme="terminal"] .exp-tech-tags span {
+    background: transparent;
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    border-radius: 0;
+    font-size: 0.7rem;
+}
+
+[data-theme="sorbet"] .exp-tech-tags span {
+    background: rgba(51, 202, 127, 0.12);
+    border: 1px solid rgba(51, 202, 127, 0.2);
+}
+
+[data-theme="signal"] .exp-tech-tags span {
+    background: rgba(7, 42, 200, 0.1);
+    border: 1px solid rgba(7, 42, 200, 0.18);
+}
+
+[data-theme="editorial"] .exp-tech-tags span {
+    background: transparent;
+    border: 1px solid rgba(17, 17, 17, 0.2);
+    border-radius: 0;
+}
+
 /* Course Accordion */
 .course-accordion {
     margin-top: 0.75rem;
