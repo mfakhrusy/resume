@@ -212,10 +212,19 @@ document.addEventListener('DOMContentLoaded', () => {
     let walkerSpeed = 34;
     let lastWalkerTimestamp = 0;
 
-    function isTerminalThemeActive() {
+    function filterThemeForWalker() {
         const docTheme = document.documentElement.getAttribute('data-theme');
         const bodyTheme = body.getAttribute('data-theme');
-        return docTheme === 'terminal' || bodyTheme === 'terminal';
+        // return docTheme === 'terminal' || bodyTheme === 'terminal';
+        if (docTheme === 'terminal' || bodyTheme === 'terminal') {
+            return true;
+        } else if (docTheme === 'signal' || bodyTheme === 'signal') {
+            return true;
+        } else if (docTheme === 'sorbet' || bodyTheme === 'sorbet') {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     function setStickWalkerState(state) {
@@ -233,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!stickWalkerTrack) return;
         clearTimeout(stickWalkerTimer);
 
-        if (!isTerminalThemeActive()) {
+        if (!filterThemeForWalker()) {
             setStickWalkerState('walking');
             return;
         }
@@ -252,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function animateStickWalker(timestamp) {
-        if (stickWalkerTrack && stickWalker && isTerminalThemeActive()) {
+        if (stickWalkerTrack && stickWalker && filterThemeForWalker()) {
             if (!lastWalkerTimestamp) {
                 lastWalkerTimestamp = timestamp;
             }

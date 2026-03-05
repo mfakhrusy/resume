@@ -808,7 +808,9 @@ a:hover {
     margin-bottom: 2rem;
 }
 
-[data-theme="terminal"] .hero-stick-walker {
+[data-theme="terminal"] .hero-stick-walker,
+[data-theme="sorbet"] .hero-stick-walker,
+[data-theme="signal"] .hero-stick-walker {
     display: block;
     position: absolute;
     left: 0;
@@ -822,7 +824,9 @@ a:hover {
     z-index: 0;
 }
 
-[data-theme="terminal"] .stick-walker {
+[data-theme="terminal"] .stick-walker,
+[data-theme="sorbet"] .stick-walker,
+[data-theme="signal"] .stick-walker {
     position: absolute;
     bottom: -5px;
     left: -30px;
@@ -839,48 +843,54 @@ a:hover {
 }
 
 [data-theme="terminal"] .stick-walker .limb-a,
-[data-theme="terminal"] .stick-walker .limb-b {
+[data-theme="terminal"] .stick-walker .limb-b,
+[data-theme="sorbet"] .stick-walker .limb-a,
+[data-theme="sorbet"] .stick-walker .limb-b,
+[data-theme="signal"] .stick-walker .limb-a,
+[data-theme="signal"] .stick-walker .limb-b {
     transform-box: fill-box;
     transform-origin: center top;
 }
 
-[data-theme="terminal"] .stick-walker .limb-a {
+[data-theme="terminal"] .stick-walker .limb-a,
+[data-theme="sorbet"] .stick-walker .limb-a,
+[data-theme="signal"] .stick-walker .limb-a {
     animation: limb-swing-a var(--limb-duration) ease-in-out infinite;
 }
 
-[data-theme="terminal"] .stick-walker .limb-b {
+[data-theme="terminal"] .stick-walker .limb-b,
+[data-theme="sorbet"] .stick-walker .limb-b,
+[data-theme="signal"] .stick-walker .limb-b {
     animation: limb-swing-b var(--limb-duration) ease-in-out infinite;
 }
 
-[data-theme="terminal"] .hero-stick-walker.is-running {
+[data-theme="terminal"] .hero-stick-walker.is-running,
+[data-theme="sorbet"] .hero-stick-walker.is-running,
+[data-theme="signal"] .hero-stick-walker.is-running {
     --limb-duration: 0.24s;
 }
 
 @keyframes stick-bob {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-1.5px);
-    }
+  0%, 100% { transform: translateY(0px); }
+  25% { transform: translateY(-2px); }
+  50% { transform: translateY(0px); }
+  75% { transform: translateY(-2px); }
 }
 
 @keyframes limb-swing-a {
-    0%, 100% {
-        transform: rotate(14deg);
-    }
-    50% {
-        transform: rotate(-14deg);
-    }
+  0%   { transform: rotate(22deg); }
+  25%  { transform: rotate(8deg); }
+  50%  { transform: rotate(-22deg); }
+  75%  { transform: rotate(-8deg); }
+  100% { transform: rotate(22deg); }
 }
 
 @keyframes limb-swing-b {
-    0%, 100% {
-        transform: rotate(-14deg);
-    }
-    50% {
-        transform: rotate(14deg);
-    }
+  0%   { transform: rotate(-22deg); }
+  25%  { transform: rotate(-8deg); }
+  50%  { transform: rotate(22deg); }
+  75%  { transform: rotate(8deg); }
+  100% { transform: rotate(-22deg); }
 }
 
 /* Section Styling */
