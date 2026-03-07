@@ -17,6 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const walkerStartX = -30;
     const sorbetPauseProgress = 0.25;
+    const bubbleSourceX = -10;
+    const bubbleSourceY = 0;
+    const bubbleDelayStep = 0.28;
+    const bubbleDelayJitter = 0.08;
+    const bubbleLaneOffsets = [-1.2, -0.6, 0, 0.6, 1.2];
+    const bubbleDelayByIndex = Array.from({ length: sorbetBubbles.length }, (_, index) => {
+        return index * bubbleDelayStep + Math.random() * bubbleDelayJitter;
+    });
 
     function getActiveTheme() {
         return document.documentElement.getAttribute('data-theme') || body.getAttribute('data-theme') || 'simple';
@@ -32,12 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function randomizeSorbetBubbleMotion(bubble) {
-        const driftX = 5 + Math.random() * 5;
-        const driftY = 26 + Math.random() * 10;
-        const duration = 2.25 + Math.random() * 1.05;
-        const wobbleDuration = 0.7 + Math.random() * 0.5;
-        const scaleStart = 0.24 + Math.random() * 0.06;
-        const scaleEnd = 1.05 + Math.random() * 0.2;
+        const driftX = 50 + Math.random() * 2.8;
+        const driftY = 28 + Math.random() * 6;
+        const duration = 2.7 + Math.random() * 0.55;
+        const wobbleDuration = 1.0 + Math.random() * 0.25;
+        const scaleStart = 0.24 + Math.random() * 0.03;
+        const scaleEnd = 1.08 + Math.random() * 0.5;
 
         bubble.style.setProperty('--bubble-drift-x', `${driftX.toFixed(2)}px`);
         bubble.style.setProperty('--bubble-drift-y', `${driftY.toFixed(2)}px`);
@@ -48,8 +56,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function primeSorbetBubbles() {
-        sorbetBubbles.forEach((bubble) => {
-            bubble.style.setProperty('--bubble-delay', '0s');
+        sorbetBubbles.forEach((bubble, index) => {
+            const laneOffset = bubbleLaneOffsets[index] || 0;
+            const delay = bubbleDelayByIndex[index] || 0;
+
+            bubble.style.setProperty('--bubble-delay', `${delay.toFixed(2)}s`);
+            bubble.style.setProperty('--bubble-x', `${(bubbleSourceX + laneOffset).toFixed(2)}px`);
+            bubble.style.setProperty('--bubble-y', `${bubbleSourceY.toFixed(2)}px`);
             randomizeSorbetBubbleMotion(bubble);
         });
     }
@@ -148,13 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         window.requestAnimationFrame(animateStickWalker);
     }
-
-    sorbetBubbles.forEach((bubble) => {
-        bubble.addEventListener('animationiteration', (event) => {
-            if (event.animationName !== 'sorbet-bubble-float') return;
-            randomizeSorbetBubbleMotion(event.currentTarget);
-        });
-    });
 
     window.addEventListener('themechange', scheduleStickWalkerState);
 

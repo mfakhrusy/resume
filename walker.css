@@ -149,21 +149,7 @@
     transform: rotate(-20deg);
 }
 
-[data-theme="sorbet"] .sorbet-bubble::after {
-    content: '';
-    position: absolute;
-    inset: -3px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 242, 227, 0.88);
-    opacity: 0;
-    transform: scale(0.6);
-    animation: sorbet-bubble-pop var(--bubble-duration, 1.65s) ease-out infinite;
-    animation-delay: inherit;
-    animation-play-state: inherit;
-}
-
-[data-theme="sorbet"] .hero-stick-walker.is-blowing .sorbet-bubble,
-[data-theme="sorbet"] .hero-stick-walker.is-blowing .sorbet-bubble::after {
+[data-theme="sorbet"] .hero-stick-walker.is-blowing .sorbet-bubble {
     animation-play-state: running;
 }
 
@@ -309,22 +295,6 @@
     }
     100% {
         border-radius: 46% 54% 50% 50%;
-    }
-}
-
-@keyframes sorbet-bubble-pop {
-    0%,
-    84% {
-        opacity: 0;
-        transform: scale(0.65);
-    }
-    96% {
-        opacity: 0.72;
-        transform: scale(1.42);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(1.62);
     }
 }
 
