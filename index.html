@@ -40,6 +40,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="walker.css">
     <!-- <link rel="stylesheet" href="robot.css"> -->
     <link rel="stylesheet" href="backpack.css">
     <!-- <link rel="stylesheet" href="gpu-showcase.css"> -->
@@ -175,10 +176,10 @@
                 <svg class="stick-walker" viewBox="0 0 24 30">
                     <circle cx="12" cy="5" r="3"></circle>
                     <line x1="12" y1="8" x2="12" y2="16"></line>
-                    <line class="limb-a" x1="12" y1="11" x2="7" y2="14"></line>
-                    <line class="limb-b" x1="12" y1="11" x2="17" y2="14"></line>
-                    <line class="limb-b" x1="12" y1="16" x2="8" y2="25"></line>
-                    <line class="limb-a" x1="12" y1="16" x2="16" y2="25"></line>
+                    <line class="limb-a arm-a" x1="12" y1="11" x2="7" y2="14"></line>
+                    <line class="limb-b arm-b" x1="12" y1="11" x2="17" y2="14"></line>
+                    <line class="limb-b leg-a" x1="12" y1="16" x2="8" y2="25"></line>
+                    <line class="limb-a leg-b" x1="12" y1="16" x2="16" y2="25"></line>
                 </svg>
                 <div class="sorbet-bubble-cloud">
                     <span class="sorbet-bubble sorbet-bubble-a"></span>
@@ -531,6 +532,7 @@
     </main>
 
     <script src="script.js"></script>
+    <script src="walker.js"></script>
     <!-- <script src="robot.js"></script> -->
     <script src="backpack.js"></script>
     <!-- <script src="gpu-showcase.js"></script> -->
