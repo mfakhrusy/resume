@@ -3,7 +3,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const stickWalkerTrack = document.querySelector('.hero-stick-walker');
     const stickWalker = document.querySelector('.stick-walker');
     const sorbetBubbles = document.querySelectorAll('.sorbet-bubble');
-    const asciiWorm = document.querySelector('.ascii-worm');
+    const wormSvg = document.querySelector('.worm-svg');
+    const wormSegments = Array.from(wormSvg?.querySelectorAll('.worm-segment') || []);
+    const wormRings = Array.from(wormSvg?.querySelectorAll('.worm-ring') || []);
+    const wormHeadGroup = wormSvg?.querySelector('.worm-head-group');
+    const wormHead = wormSvg?.querySelector('.worm-head');
+    const wormEye = wormSvg?.querySelector('.worm-eye');
+    const wormPupil = wormSvg?.querySelector('.worm-pupil');
+    const wormMouth = wormSvg?.querySelector('.worm-mouth');
+    const wormMouthCavity = wormSvg?.querySelector('.worm-mouth-cavity');
+    const wormLowerJaw = wormSvg?.querySelector('.worm-lower-jaw');
 
     if (!stickWalkerTrack || !stickWalker) {
         return;
@@ -21,8 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let wormActive = false;
     let wormStartMs = 0;
     let wormX = 0;
-    let wormFrameIndex = 0;
-    let wormFrameTimerMs = 0;
+    let wormWavePhase = 0;
     let wormLastUpdateMs = 0;
 
     const walkerStartX = -30;
@@ -37,41 +45,120 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     const FULL_TURN = Math.PI * 2;
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const wormBaseFrames = [
-        "  _/\\__/\\__(o>",
-        " _/\\__/\\___(O>",
-        "  _/\\__/\\__(o>",
-        " _/\\__/\\___(0>"
-    ];
-    const wormChompFrames = [
-        "  _/\\__/\\__( 0>",
-        " _/\\__/\\___( 0>",
-        "  _/\\__/\\__( 0>"
-    ];
+    const wormMinGapPx = 34;
+    const wormBaseY = 22;
+    const wormHeadOffsetX = 12;
+    const wormSegmentBaseX = [16, 28, 40, 52, 64, 76, 88, 100];
+    const wormSegmentBaseRx = [8.4, 8.7, 9.1, 9.4, 9.2, 8.8, 8.3, 7.7];
+    const wormSegmentBaseRy = [6.2, 6.5, 6.8, 7.0, 6.8, 6.4, 6.1, 5.8];
+    const wormEyeBase = { x: -1.02, y: -3.35, rx: 1.55, ry: 1.32 };
+    const wormPupilBase = { x: -0.7, y: -3.4 };
+
+    function hasWormVisual() {
+        return Boolean(
+            wormSvg &&
+            wormSegments.length === wormSegmentBaseX.length &&
+            wormRings.length === wormSegmentBaseX.length &&
+            wormHeadGroup &&
+            wormHead &&
+            wormEye &&
+            wormPupil &&
+            wormMouth &&
+            wormMouthCavity &&
+            wormLowerJaw
+        );
+    }
 
     function isTerminalThemeActive() {
         return getActiveTheme() === 'terminal';
     }
 
+    function renderWormShape(phase, isChomping) {
+        if (!hasWormVisual()) return;
+
+        const waveAmplitude = isChomping ? 1.7 : 2.8;
+        const segmentYs = [];
+
+        wormSegments.forEach((segment, index) => {
+            const envelope = 1 - index * 0.08;
+            const wave = Math.sin(phase - index * 0.68);
+            const microWave = Math.sin(phase * 2.08 - index * 0.42) * 0.35;
+            const y = wormBaseY + wave * waveAmplitude * envelope + microWave;
+            const stretch = 1 + Math.sin(phase * 1.7 - index * 0.46) * 0.08;
+            const rx = wormSegmentBaseRx[index] * stretch;
+            const ry = wormSegmentBaseRy[index] * (1 - (stretch - 1) * 0.55);
+
+            segment.setAttribute('cx', wormSegmentBaseX[index].toFixed(2));
+            segment.setAttribute('cy', y.toFixed(2));
+            segment.setAttribute('rx', rx.toFixed(2));
+            segment.setAttribute('ry', ry.toFixed(2));
+            segmentYs[index] = y;
+
+            const ring = wormRings[index];
+            ring.setAttribute('cx', (wormSegmentBaseX[index] - 0.55).toFixed(2));
+            ring.setAttribute('cy', y.toFixed(2));
+            ring.setAttribute('rx', (rx * 0.54).toFixed(2));
+            ring.setAttribute('ry', (ry * 0.8).toFixed(2));
+        });
+
+        const tailIndex = wormSegments.length - 1;
+        const headX = wormSegmentBaseX[tailIndex] + wormHeadOffsetX + Math.sin(phase + 0.9) * (isChomping ? 0.4 : 0.8);
+        const headY = segmentYs[tailIndex] - 0.5 + Math.sin(phase * 1.45) * 0.46;
+        const headTilt = Math.sin(phase * 1.18) * (isChomping ? 1.4 : 2.4) + (isChomping ? -1.5 : 0);
+        wormHeadGroup.setAttribute('transform', `translate(${headX.toFixed(2)} ${headY.toFixed(2)}) rotate(${headTilt.toFixed(2)})`);
+
+        const blink = isChomping ? 0 : Math.pow(Math.max(0, Math.sin(phase * 0.35 + 0.9)), 18);
+        const eyeOpenScale = isChomping ? 0.82 : 1 - blink * 0.82;
+        const gazeX = isChomping ? 0.24 : 0.06 + Math.sin(phase * 0.55) * 0.08;
+        const gazeY = isChomping ? 0.06 : Math.sin(phase * 0.9) * 0.04;
+
+        wormEye.setAttribute('cx', wormEyeBase.x.toFixed(2));
+        wormEye.setAttribute('cy', (wormEyeBase.y + (isChomping ? 0.08 : 0)).toFixed(2));
+        wormEye.setAttribute('rx', wormEyeBase.rx.toFixed(2));
+        wormEye.setAttribute('ry', (wormEyeBase.ry * eyeOpenScale).toFixed(2));
+        wormPupil.setAttribute('cx', (wormPupilBase.x + gazeX).toFixed(2));
+        wormPupil.setAttribute('cy', (wormPupilBase.y + gazeY + (isChomping ? 0.08 : 0)).toFixed(2));
+
+        if (isChomping) {
+            wormMouthCavity.setAttribute('cx', '6.75');
+            wormMouthCavity.setAttribute('cy', '3.05');
+            wormMouthCavity.setAttribute('rx', '4.95');
+            wormMouthCavity.setAttribute('ry', '3.25');
+            wormMouth.setAttribute('d', 'M 1.8 0.7 q 5.0 2.6 9.7 0.5');
+            wormLowerJaw.setAttribute('d', 'M 1.9 2.0 q 5.3 5.2 9.8 1.8');
+            wormSvg.classList.add('is-chomping');
+            return;
+        }
+
+        wormMouthCavity.setAttribute('cx', '6.6');
+        wormMouthCavity.setAttribute('cy', '2.8');
+        wormMouthCavity.setAttribute('rx', '4.65');
+        wormMouthCavity.setAttribute('ry', '2.55');
+        wormMouth.setAttribute('d', 'M 1.8 0.8 q 4.7 1.8 9.3 0.3');
+        wormLowerJaw.setAttribute('d', 'M 2.0 2.1 q 4.9 3.6 9.2 1.0');
+        wormSvg.classList.remove('is-chomping');
+    }
+
     function setWormActive(active, timestampMs = 0) {
-        if (!asciiWorm) return;
+        if (!hasWormVisual()) return;
         wormActive = active;
         stickWalkerTrack.classList.toggle('worm-active', active);
 
         if (!active) {
-            asciiWorm.textContent = '';
+            wormSvg.classList.remove('is-chomping');
+            wormSvg.style.transform = 'translate3d(0, 0, 0)';
+            renderWormShape(0, false);
             return;
         }
 
         wormStartMs = timestampMs;
-        wormFrameTimerMs = timestampMs;
         wormLastUpdateMs = timestampMs;
-        wormFrameIndex = 0;
-        asciiWorm.textContent = wormBaseFrames[0];
+        wormWavePhase = 0;
+        renderWormShape(0, false);
     }
 
     function maybeTriggerWormAttack(progress, timestampMs) {
-        if (!asciiWorm || reducedMotionQuery.matches || !isTerminalThemeActive() || wormActive || wormAttemptedThisLap) {
+        if (!hasWormVisual() || reducedMotionQuery.matches || !isTerminalThemeActive() || wormActive || wormAttemptedThisLap) {
             return;
         }
 
@@ -85,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateWormVisual(timestampMs) {
-        if (!asciiWorm) return;
+        if (!hasWormVisual()) return;
 
         if (!wormActive || !isTerminalThemeActive() || reducedMotionQuery.matches) {
             setWormActive(false);
@@ -95,23 +182,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const deltaSeconds = Math.max(0, (timestampMs - wormLastUpdateMs) / 1000);
         wormLastUpdateMs = timestampMs;
         const distanceFromBack = walkerX - wormX;
-        const distanceToWalker = Math.abs(distanceFromBack);
-        const shouldChomp = distanceToWalker < 30;
-        const frames = shouldChomp ? wormChompFrames : wormBaseFrames;
-        const frameTickMs = shouldChomp ? 70 : 95;
+        const distanceToWalker = Math.max(0, distanceFromBack);
+        const shouldChomp = distanceToWalker < 48;
 
-        const slitherSpeed = Math.max(walkerSpeed + 10, shouldChomp ? 82 : 46);
+        // Keep the worm visibly slower so it can chase, but never catch the walker.
+        const slitherSpeed = Math.max(18, walkerSpeed * 0.72);
         wormX += slitherSpeed * deltaSeconds;
 
-        if (timestampMs - wormFrameTimerMs > frameTickMs) {
-            wormFrameIndex = (wormFrameIndex + 1) % frames.length;
-            wormFrameTimerMs = timestampMs;
+        const maxWormX = walkerX - wormMinGapPx;
+        if (wormX > maxWormX) {
+            wormX = maxWormX;
         }
 
-        asciiWorm.textContent = frames[wormFrameIndex];
-        const bobY = Math.sin((timestampMs - wormStartMs) * 0.015) * 1.5;
-        asciiWorm.style.left = `${wormX}px`;
-        asciiWorm.style.transform = `translate3d(0, ${bobY.toFixed(2)}px, 0)`;
+        const waveRate = shouldChomp ? 13.4 : 9.3;
+        wormWavePhase = (wormWavePhase + deltaSeconds * waveRate) % FULL_TURN;
+
+        const bobY = Math.sin((timestampMs - wormStartMs) * 0.011) * 1.35;
+        wormSvg.style.left = `${wormX}px`;
+        wormSvg.style.transform = `translate3d(0, ${bobY.toFixed(2)}px, 0)`;
+        renderWormShape(wormWavePhase, shouldChomp);
 
         // Worm keeps chasing until lap reset/theme change.
     }

@@ -117,31 +117,114 @@
     display: none;
 }
 
-.ascii-worm {
+.worm-svg {
     display: none;
 }
 
-[data-theme="terminal"] .ascii-worm {
+[data-theme="terminal"] .worm-svg {
     display: block;
     position: absolute;
     left: 0;
-    bottom: 6px;
-    margin: 0;
-    padding: 0;
-    font-family: 'JetBrains Mono', 'Fira Code', monospace;
-    font-size: 11px;
-    line-height: 1;
-    white-space: pre;
-    color: rgba(0, 243, 255, 0.9);
-    text-shadow: 0 0 6px rgba(0, 243, 255, 0.38);
+    bottom: 2px;
+    width: 132px;
+    height: 40px;
     opacity: 0;
     transform: translate3d(0, 0, 0);
     will-change: transform, opacity;
     pointer-events: none;
     z-index: 2;
+    overflow: visible;
 }
 
-[data-theme="terminal"] .hero-stick-walker.worm-active .ascii-worm {
+[data-theme="terminal"] .worm-svg .worm-segment {
+    fill: #f4a6c5;
+    stroke: #c96f97;
+    stroke-width: 1.15;
+    filter: drop-shadow(0 0 3px rgba(255, 145, 194, 0.18));
+}
+
+[data-theme="terminal"] .worm-svg .worm-ring {
+    fill: none;
+    stroke: #b85783;
+    stroke-width: 1.35;
+    opacity: 0.76;
+}
+
+[data-theme="terminal"] .worm-svg .worm-head {
+    fill: #f6b2cc;
+    stroke: #c3648f;
+    stroke-width: 1.1;
+    filter: drop-shadow(0 0 5px rgba(249, 142, 194, 0.22));
+}
+
+[data-theme="terminal"] .worm-svg .worm-head-highlight {
+    fill: rgba(255, 232, 242, 0.92);
+}
+
+[data-theme="terminal"] .worm-svg .worm-brow {
+    fill: none;
+    stroke: rgba(130, 64, 94, 0.78);
+    stroke-width: 0.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+[data-theme="terminal"] .worm-svg .worm-eye-socket {
+    fill: rgba(255, 244, 249, 0.95);
+    stroke: rgba(205, 145, 172, 0.72);
+    stroke-width: 0.55;
+}
+
+[data-theme="terminal"] .worm-svg .worm-eye {
+    fill: #101010;
+}
+
+[data-theme="terminal"] .worm-svg .worm-pupil {
+    fill: #000000;
+}
+
+[data-theme="terminal"] .worm-svg .worm-mouth {
+    fill: none;
+    stroke: #703955;
+    stroke-width: 1.35;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke-width 110ms ease, d 110ms ease;
+}
+
+[data-theme="terminal"] .worm-svg .worm-mouth-cavity {
+    fill: rgba(107, 36, 64, 0.85);
+    stroke: rgba(176, 101, 131, 0.75);
+    stroke-width: 0.6;
+}
+
+[data-theme="terminal"] .worm-svg .worm-lower-jaw {
+    fill: none;
+    stroke: rgba(120, 63, 89, 0.76);
+    stroke-width: 1.05;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+[data-theme="terminal"] .worm-svg .worm-tooth {
+    fill: #f4ddb5;
+    stroke: #cfb18a;
+    stroke-width: 0.45;
+}
+
+[data-theme="terminal"] .worm-svg .worm-tooth.bottom {
+    fill: #efd2a8;
+}
+
+[data-theme="terminal"] .worm-svg.is-chomping .worm-mouth {
+    stroke-width: 1.9;
+}
+
+[data-theme="terminal"] .worm-svg.is-chomping .worm-mouth-cavity {
+    fill: rgba(121, 39, 72, 0.9);
+}
+
+[data-theme="terminal"] .hero-stick-walker.worm-active .worm-svg {
     opacity: 1;
 }
 
